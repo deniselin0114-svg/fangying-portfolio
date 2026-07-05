@@ -15,7 +15,7 @@
 (function () {
   "use strict";
 
-  var PASSWORD = "1234denise";
+  var PASSWORD = "12340114";
   var UNLOCK_KEY = "portfolio-unlocked";
   var WORK_PAGES = {
     "eventstream.html": 1,
