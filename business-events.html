@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create business events with AI assistance — Fangying Lin</title>
+  <meta name="description" content="Microsoft Fabric Business Events — define, explore, and act on business-critical signals with AI-assisted authoring." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    // Apply saved theme before paint to avoid a flash.
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (!t) {
+          t = window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+      // Case studies are locked until unlocked from the home page.
+      try {
+        if (localStorage.getItem("portfolio-unlocked") !== "1") {
+          window.location.replace("index.html");
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="project-page">
+  <div class="app" data-nav-collapsed="false">
+    <button class="theme-switch" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+      <span class="theme-switch__icons" aria-hidden="true">
+        <span class="theme-toggle__icon theme-toggle__icon--sun">☀</span>
+        <span class="theme-toggle__icon theme-toggle__icon--moon">☾</span>
+      </span>
+      <span class="theme-switch__label">Switch to dark mode</span>
+    </button>
+    <div class="floating-controls">
+      <button class="nav-reopen has-tip has-tip--right" type="button" aria-label="Open navigation" data-tip="Expand">
+        <span aria-hidden="true">☰</span>
+      </button>
+    </div>
+    <aside class="sidebar" aria-label="Primary">
+      <div class="profile">
+        <div class="profile__meta">
+          <span class="profile__name">Fangying Lin</span>
+        </div>
+        <div class="profile__controls">
+          <button class="square-btn nav-collapse has-tip" type="button" aria-label="Collapse navigation" data-tip="Collapse">
+            <span class="nav-collapse__icon" aria-hidden="true">«</span>
+          </button>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="nav__item" href="index.html#about">
+          About me
+        </a>
+
+        <p class="nav__group">Microsoft Fabric</p>
+        <a class="nav__item" href="eventstream.html">Eventstream in Microsoft Fabric</a>
+        <a class="nav__item is-active" href="business-events.html">Business Events in Microsoft Fabric</a>
+        <a class="nav__item" href="get-data.html">Get data</a>
+        <a class="nav__item" href="custom-connector.html">Custom stream connector</a>
+
+        <p class="nav__group">Cornerstone Global Partner</p>
+        <a class="nav__item" href="top20talent.html">Top20Talent Portal</a>
+
+        <hr class="nav__divider" aria-hidden="true" />
+        <p class="nav__group">Connect with me</p>
+        <a class="nav__item" href="#">Resume</a>
+        <a class="nav__item" href="mailto:deniselin0114@gmail.com">Email me</a>
+      </nav>
+    </aside>
+
+  <main class="proj">
+    <div class="proj-hero reveal">
+      <span class="proj-eyebrow">
+        <svg class="proj-eyebrow__logo" width="20" height="20" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M30.0801 168.53L26.9556 179.966C25.7912 183.624 24.1601 188.997 23.2801 193.779C22.0267 197.086 21.3423 200.673 21.3423 204.419C21.3423 219.868 33.0134 232.588 48.0178 234.25C52.2401 234.859 57.0178 234.828 62.3734 234.042L86.9778 230.646C93.1645 229.793 98.2445 225.326 99.8889 219.299L116.822 157.104L30.0801 168.53Z" fill="url(#paint0_linear_be)"/>
+          <path d="M54.0786 171.476C28.1452 175.494 22.8208 195.063 22.8208 195.063L47.6564 103.809L177.43 86.2538L159.732 150.534C158.812 153.978 155.919 156.618 152.332 157.165L151.607 157.285L53.3497 171.6L54.0786 171.476Z" fill="url(#paint1_linear_be)"/>
+          <path d="M68.7944 113.253L212.461 92.0311C215.879 91.5644 218.648 89.0622 219.519 85.7866L234.346 32.1289C234.55 31.4 234.657 30.6311 234.657 29.84C234.657 25.1422 230.852 21.3333 226.15 21.3333C225.786 21.3333 225.421 21.3555 225.07 21.4L87.9855 41.6578C73.0966 44.0489 61.0744 55.0311 57.1722 69.3555L37.4033 141.004C41.3722 126.511 43.8122 117.773 68.7944 113.253Z" fill="url(#paint3_linear_be)"/>
+          <path d="M68.7941 113.257C47.9897 117.022 42.8252 123.724 39.3852 134.226L22.8208 195.075C22.8208 195.075 28.1141 175.702 53.7319 171.559L151.612 157.302L152.336 157.182C155.923 156.635 158.816 153.99 159.736 150.55L174.296 97.6704L68.7941 113.257Z" fill="url(#paint6_linear_be)"/>
+          <defs>
+            <linearGradient id="paint0_linear_be" x1="69.0801" y1="234.673" x2="69.0801" y2="157.104" gradientUnits="userSpaceOnUse">
+              <stop offset="0.056" stop-color="#2AAC94"/>
+              <stop offset="0.588" stop-color="#0E6961"/>
+              <stop offset="1" stop-color="#085954"/>
+            </linearGradient>
+            <linearGradient id="paint1_linear_be" x1="167.098" y1="178.388" x2="92.1941" y2="96.9205" gradientUnits="userSpaceOnUse">
+              <stop offset="0.0417478" stop-color="#ABE88E"/>
+              <stop offset="0.548926" stop-color="#2AAA92"/>
+              <stop offset="0.906" stop-color="#117865"/>
+            </linearGradient>
+            <linearGradient id="paint3_linear_be" x1="37.4033" y1="81.1689" x2="227.141" y2="81.1689" gradientUnits="userSpaceOnUse">
+              <stop offset="0.043" stop-color="#25FFD4"/>
+              <stop offset="0.874" stop-color="#55DDB9"/>
+            </linearGradient>
+            <linearGradient id="paint6_linear_be" x1="84.0312" y1="149.117" x2="86.2272" y2="83.943" gradientUnits="userSpaceOnUse">
+              <stop offset="0.204642" stop-color="#063D3B" stop-opacity="0"/>
+              <stop offset="0.872285" stop-color="#063D3B" stop-opacity="0.75"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        Microsoft Fabric
+      </span>
+      <h1 class="proj-title">Business Events in Microsoft Fabric</h1>
+      <p class="proj-tagline">
+        Turn raw streams into meaningful, business-critical signals. Business
+        Events lets users define, explore, and act on the moments that matter —
+        with AI-assisted authoring that makes the whole flow feel effortless.
+      </p>
+      <div class="proj-banner card__media--eventstream card__media--shot" aria-hidden="true">
+        <img class="es-shot" src="assets/business-events-preview.png" alt="" loading="lazy" />
+      </div>
+    </div>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">The problem</span>
+      <h2>Lots of data, not enough meaning</h2>
+      <p>
+        Every company today runs on a web of apps, devices, and systems that are
+        constantly producing data — thousands of tiny status updates happening
+        every second. But raw data doesn't tell you what to <em>do</em>. The hard
+        part isn't collecting it; it's spotting the moments that matter and
+        reacting fast enough to make a difference.
+      </p>
+      <p>
+        Before Business Events, there was no easy, built-in way for users to send
+        out a clear "an important thing just happened" signal — like <em>a flight
+        is delayed</em> or <em>a bag was sent to the wrong place</em>. Users had
+        two bad options: settle for generic system alerts that didn't fit their
+        business, or hand-build complicated plumbing to connect everything — slow,
+        expensive, and easy to break.
+      </p>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">The idea</span>
+      <h2>A clear announcement everyone can understand</h2>
+      <p>
+        A <strong>business event</strong> is a short, meaningful "heads-up" that
+        something important happened and is worth reacting to right away. It's
+        less like a wall of numbers and more like a headline: <em>"Order Placed,"
+        "Price Changed," "Shipment Left the Warehouse."</em> <strong>Business
+        Events</strong> is a feature in Microsoft Fabric that lets users create
+        these headlines, find them, and act on them — all in one place.
+      </p>
+      <p>
+        The easiest way to picture it: imagine a busy airport. The flood of raw
+        radar data is something no normal person could read. But the
+        <strong>announcements</strong> — <em>"Flight 204 is delayed"</em> — are
+        clear, standard, and instantly understood by everyone. Business events are
+        the announcements for our users' systems. Instead of everyone squinting at
+        raw data, they hear the same clear message and can respond.
+      </p>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">How it works</span>
+      <h2>Publishers and consumers: a decoupled design</h2>
+      <p>
+        The clever part of the design is that the <strong>announcers
+        (publishers)</strong> and the <strong>listeners (consumers)</strong> never
+        have to talk to each other directly.
+      </p>
+      <p>
+        <strong>What's a "publisher"?</strong> A publisher is simply the
+        <strong>announcer</strong> — <em>the source that calls out the event</em>
+        and says "this just happened." It could be a live data pipeline
+        (<strong>Eventstream</strong>), a no-code rule (<strong>Activator</strong>),
+        or a piece of custom code (a <strong>Notebook</strong> or <strong>User
+        Data Function</strong>). Whichever one detects the moment is the
+        <strong>publisher (the announcer)</strong>; everything else that reacts is
+        a <strong>consumer (a listener)</strong>.
+      </p>
+      <ul class="proj-highlights">
+        <li>
+          <strong>Publishers (the announcers)</strong> — such as Eventstream,
+          Activator, Notebooks, and User Data Functions — emit an event once.
+        </li>
+        <li>
+          <strong>Consumers (the listeners)</strong> — like Activator (to trigger
+          alerts and workflows), Eventhouse (to store and query history), and
+          Real-Time Dashboards (to visualize) — can subscribe independently,
+          without ever touching or coordinating with the original source.
+        </li>
+      </ul>
+      <p>
+        Because publishers (announcers) and consumers (listeners) are kept
+        separate this way, a new client can start <strong>listening
+        (consuming)</strong> to an existing event anytime — without disturbing
+        whoever set it up in the first place. Think of it like a public address
+        system: the <strong>publisher (the announcer)</strong> doesn't need to know
+        who's listening, and new <strong>consumers (listeners)</strong> can tune in
+        whenever they want.
+      </p>
+      <p>
+        To make sure every <strong>consumer (listener)</strong> interprets an event
+        the same way, there's a shared <strong>rulebook</strong> (called a Schema
+        Registry) that defines exactly what information each event contains. That
+        way, no one gets confused, and the events stay consistent as more of our
+        users start relying on them.
+      </p>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">AI-guided setup</span>
+      <h2>Creating one, with AI doing the heavy lifting</h2>
+      <p>
+        Research showed that users didn't want to build one of these by hand — the
+        setup involved too many technical steps and unfamiliar terms, and it felt
+        overwhelming. So the experience is designed around one idea: <em>describe
+        what you want in plain English, and AI walks you through the rest.</em>
+      </p>
+      <p>Here's how it feels to use, step by step:</p>
+      <ol class="proj-highlights">
+        <li>
+          <strong>Say what you want to track.</strong> For example: <em>"Let me
+          know whenever a bag is sent to the wrong airport."</em> The AI
+          understands this and sets up the event for you, including the details it
+          should carry (like flight number and bag ID).
+        </li>
+        <li>
+          <strong>AI sets up a place to keep the history.</strong> Every
+          announcement is automatically saved so you can look back later and spot
+          patterns. That storage spot — <strong>Eventhouse</strong> — is like a
+          super-fast filing cabinet built for live data, and you don't have to set
+          it up yourself; it just happens.
+        </li>
+        <li>
+          <strong>AI suggests where the signal should come from.</strong> It
+          recommends the best source for your announcement and connects it for you,
+          so the information lines up correctly every time.
+        </li>
+        <li>
+          <strong>AI helps decide what happens next.</strong> It wires up the
+          reaction — like automatically sending an email or a Microsoft Teams
+          message, or kicking off a follow-up task — the moment the event happens.
+        </li>
+      </ol>
+      <p>
+        The result: a confusing, multi-step technical process becomes a simple,
+        guided conversation. Even someone who's never heard the technical terms can
+        set up a complete, working event, because AI quietly handles the
+        complicated parts in the background.
+      </p>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Why it matters</span>
+      <h2>From "something happened" to "someone did something about it"</h2>
+      <p>
+        Business Events turn passive data into real action. The benefits are
+        simple:
+      </p>
+      <ul class="proj-highlights">
+        <li>
+          <strong>React instantly.</strong> Users respond the moment something
+          important happens, instead of finding out later.
+        </li>
+        <li>
+          <strong>Add new uses without breaking anything.</strong> Because
+          announcers (publishers) and listeners (consumers) are independent, new
+          clients can plug in anytime.
+        </li>
+        <li>
+          <strong>Everyone speaks the same language.</strong> One shared definition
+          of each event means no confusion across users' organizations.
+        </li>
+      </ul>
+      <p>
+        Once an event is announced, it can do things automatically — send an alert,
+        run a follow-up task, feed information to AI, or get saved for later review
+        — all from a single signal. And because the announcements are easy to find,
+        other users can reuse the <em>same</em> one instead of rebuilding their own,
+        which saves time, avoids duplicate work, and keeps everyone in sync.
+      </p>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">User validation</span>
+      <h2>What we learned from user study</h2>
+      <p>
+        This work was shaped by a study of <strong>31 people</strong> — a mix of
+        technical and non-technical roles across industries like manufacturing,
+        logistics, retail, and hospitality. Their frustrations pointed straight to
+        the problems Business Events solves:
+      </p>
+      <ul class="proj-highlights">
+        <li>
+          <strong>Silent failures break trust.</strong> The scariest thing wasn't
+          data that was broken — it was data that <em>looked</em> fine but was
+          quietly wrong or empty. Users needed an easy way to double-check that the
+          right signals were arriving.
+        </li>
+        <li>
+          <strong>Too many disconnected tools.</strong> Users were stuck manually
+          stitching together several tools to get one job done — slow and easy to
+          get wrong. A single shared system removes that busywork.
+        </li>
+        <li>
+          <strong>Non-technical folks need plain, useful signals.</strong> Users
+          who make fast operational decisions aren't data experts; they need clear,
+          meaningful "headlines," not raw technical noise.
+        </li>
+        <li>
+          <strong>Too many alerts, too much cost.</strong> When users set up a
+          separate alert for everything, it piled up. A shared event that many
+          people can listen to cuts down the clutter.
+        </li>
+      </ul>
+      <p>
+        A follow-up usability test made the case for the <strong>AI-guided
+        setup</strong> especially clear: users wanted to start from their own data
+        (not a confusing menu), and asked for a plainer explanation of what a
+        business event even is — <strong>none of the five participants understood
+        the technical terms</strong>. Letting people describe what they want and
+        having AI handle the rest directly fixes that.
+      </p>
+    </section>
+
+    <section class="proj-section reveal" id="try-prototype">
+      <span class="proj-kicker">Interactive prototype</span>
+      <h2>Try it end to end</h2>
+      <a
+        class="feature feature--proto"
+        href="https://www.figma.com/proto/ZjCJJcf6PpaxgXcuCN39gq/Create-business-events-with-AI-assistance?node-id=1-137635&page-id=0%3A1&starting-point-node-id=1%3A137635&scaling=contain&content-scaling=fixed"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="feature__sheen" aria-hidden="true"></span>
+        <span class="feature__text">
+          <span class="feature__name">Create business events with AI assistance</span>
+          <span class="feature__desc">
+            Define meaningful business events faster with AI-assisted guidance
+            that turns raw streams into actionable signals.
+          </span>
+        </span>
+        <span class="feature__cta">Open prototype ↗</span>
+      </a>
+      <p class="feature-fallback">
+        Password: <strong>1234denise</strong>. If this link doesn’t work,
+        <a href="prototype-business-events.html">try the walkthrough here</a>.
+      </p>
+    </section>
+  </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

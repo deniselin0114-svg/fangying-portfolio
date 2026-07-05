@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eventstream — Fangying Lin</title>
+  <meta name="description" content="Microsoft Fabric Eventstream — a visual topology editor for building real-time data pipelines." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    // Apply saved theme before paint to avoid a flash.
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (!t) {
+          t = window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+      // Case studies are locked until unlocked from the home page.
+      try {
+        if (localStorage.getItem("portfolio-unlocked") !== "1") {
+          window.location.replace("index.html");
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="project-page">
+  <div class="app" data-nav-collapsed="false">
+    <button class="theme-switch" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+      <span class="theme-switch__icons" aria-hidden="true">
+        <span class="theme-toggle__icon theme-toggle__icon--sun">☀</span>
+        <span class="theme-toggle__icon theme-toggle__icon--moon">☾</span>
+      </span>
+      <span class="theme-switch__label">Switch to dark mode</span>
+    </button>
+    <div class="floating-controls">
+      <button class="nav-reopen has-tip has-tip--right" type="button" aria-label="Open navigation" data-tip="Expand">
+        <span aria-hidden="true">☰</span>
+      </button>
+    </div>
+    <aside class="sidebar" aria-label="Primary">
+      <div class="profile">
+        <div class="profile__meta">
+          <span class="profile__name">Fangying Lin</span>
+        </div>
+        <div class="profile__controls">
+          <button class="square-btn nav-collapse has-tip" type="button" aria-label="Collapse navigation" data-tip="Collapse">
+            <span class="nav-collapse__icon" aria-hidden="true">«</span>
+          </button>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="nav__item" href="index.html#about">
+          About me
+        </a>
+
+        <p class="nav__group">Microsoft Fabric</p>
+        <a class="nav__item" href="eventstream.html">Eventstream in Microsoft Fabric</a>
+        <a class="nav__item" href="business-events.html">Business Events in Microsoft Fabric</a>
+        <a class="nav__item" href="get-data.html">Get data</a>
+        <a class="nav__item" href="custom-connector.html">Custom stream connector</a>
+
+        <p class="nav__group">Cornerstone Global Partner</p>
+        <a class="nav__item" href="top20talent.html">Top20Talent Portal</a>
+
+        <hr class="nav__divider" aria-hidden="true" />
+        <p class="nav__group">Connect with me</p>
+        <a class="nav__item" href="#">Resume</a>
+        <a class="nav__item" href="mailto:deniselin0114@gmail.com">Email me</a>
+      </nav>
+    </aside>
+
+  <main class="proj">
+    <div class="proj-hero reveal">
+      <span class="proj-eyebrow">
+        <svg class="proj-eyebrow__logo" width="20" height="20" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M30.0801 168.53L26.9556 179.966C25.7912 183.624 24.1601 188.997 23.2801 193.779C22.0267 197.086 21.3423 200.673 21.3423 204.419C21.3423 219.868 33.0134 232.588 48.0178 234.25C52.2401 234.859 57.0178 234.828 62.3734 234.042L86.9778 230.646C93.1645 229.793 98.2445 225.326 99.8889 219.299L116.822 157.104L30.0801 168.53Z" fill="url(#paint0_linear_55366_465)"/>
+          <path d="M54.0786 171.476C28.1452 175.494 22.8208 195.063 22.8208 195.063L47.6564 103.809L177.43 86.2538L159.732 150.534C158.812 153.978 155.919 156.618 152.332 157.165L151.607 157.285L53.3497 171.6L54.0786 171.476Z" fill="url(#paint1_linear_55366_465)"/>
+          <path d="M54.0786 171.476C28.1452 175.494 22.8208 195.063 22.8208 195.063L47.6564 103.809L177.43 86.2538L159.732 150.534C158.812 153.978 155.919 156.618 152.332 157.165L151.607 157.285L53.3497 171.6L54.0786 171.476Z" fill="url(#paint2_linear_55366_465)" fill-opacity="0.8"/>
+          <path d="M68.7944 113.253L212.461 92.0311C215.879 91.5644 218.648 89.0622 219.519 85.7866L234.346 32.1289C234.55 31.4 234.657 30.6311 234.657 29.84C234.657 25.1422 230.852 21.3333 226.15 21.3333C225.786 21.3333 225.421 21.3555 225.07 21.4L87.9855 41.6578C73.0966 44.0489 61.0744 55.0311 57.1722 69.3555L37.4033 141.004C41.3722 126.511 43.8122 117.773 68.7944 113.253Z" fill="url(#paint3_linear_55366_465)"/>
+          <path d="M68.7944 113.253L212.461 92.0311C215.879 91.5644 218.648 89.0622 219.519 85.7867L234.346 32.1289C234.55 31.4 234.657 30.6311 234.657 29.84C234.657 25.1422 230.852 21.3333 226.15 21.3333C225.786 21.3333 225.421 21.3555 225.07 21.4L87.9855 41.6578C73.0966 44.0489 61.0744 55.0311 57.1722 69.3555L37.4033 141.004C41.3722 126.511 43.8122 117.773 68.7944 113.253Z" fill="url(#paint4_linear_55366_465)"/>
+          <path d="M68.7944 113.253L212.461 92.0311C215.879 91.5644 218.648 89.0622 219.519 85.7867L234.346 32.1289C234.55 31.4 234.657 30.6311 234.657 29.84C234.657 25.1422 230.852 21.3333 226.15 21.3333C225.786 21.3333 225.421 21.3555 225.07 21.4L87.9855 41.6578C73.0966 44.0489 61.0744 55.0311 57.1722 69.3555L37.4033 141.004C41.3722 126.511 43.8122 117.773 68.7944 113.253Z" fill="url(#paint5_linear_55366_465)" fill-opacity="0.4"/>
+          <path d="M68.7941 113.257C47.9897 117.022 42.8252 123.724 39.3852 134.226L22.8208 195.075C22.8208 195.075 28.1141 175.702 53.7319 171.559L151.612 157.302L152.336 157.182C155.923 156.635 158.816 153.99 159.736 150.55L174.296 97.6704L68.7941 113.257Z" fill="url(#paint6_linear_55366_465)"/>
+          <path d="M68.7941 113.257C47.9897 117.022 42.8252 123.724 39.3852 134.226L22.8208 195.075C22.8208 195.075 28.1141 175.702 53.7319 171.559L151.612 157.302L152.336 157.182C155.923 156.635 158.816 153.99 159.736 150.55L174.296 97.6704L68.7941 113.257Z" fill="url(#paint7_linear_55366_465)" fill-opacity="0.2"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M53.7334 171.56C32.0845 175.062 24.9734 189.4 23.2801 193.769C22.0267 197.084 21.3423 200.671 21.3423 204.418C21.3423 219.866 33.0134 232.586 48.0178 234.249C52.2401 234.858 57.0178 234.826 62.3734 234.04L86.9778 230.644C93.1645 229.791 98.2445 225.324 99.8889 219.298L115.324 162.591L53.7378 171.564L53.7334 171.56Z" fill="url(#paint8_linear_55366_465)"/>
+          <defs>
+            <linearGradient id="paint0_linear_55366_465" x1="69.0801" y1="234.673" x2="69.0801" y2="157.104" gradientUnits="userSpaceOnUse">
+              <stop offset="0.056" stop-color="#2AAC94"/>
+              <stop offset="0.155" stop-color="#239C87"/>
+              <stop offset="0.372" stop-color="#177E71"/>
+              <stop offset="0.588" stop-color="#0E6961"/>
+              <stop offset="0.799" stop-color="#095D57"/>
+              <stop offset="1" stop-color="#085954"/>
+            </linearGradient>
+            <linearGradient id="paint1_linear_55366_465" x1="167.098" y1="178.388" x2="92.1941" y2="96.9205" gradientUnits="userSpaceOnUse">
+              <stop offset="0.0417478" stop-color="#ABE88E"/>
+              <stop offset="0.548926" stop-color="#2AAA92"/>
+              <stop offset="0.906" stop-color="#117865"/>
+            </linearGradient>
+            <linearGradient id="paint2_linear_55366_465" x1="-16.9721" y1="174.428" x2="54.3093" y2="150.119" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#6AD6F9"/>
+              <stop offset="1" stop-color="#6AD6F9" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="paint3_linear_55366_465" x1="37.4033" y1="81.1689" x2="227.141" y2="81.1689" gradientUnits="userSpaceOnUse">
+              <stop offset="0.043" stop-color="#25FFD4"/>
+              <stop offset="0.874" stop-color="#55DDB9"/>
+            </linearGradient>
+            <linearGradient id="paint4_linear_55366_465" x1="37.4033" y1="54.6488" x2="208.319" y2="134.014" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#6AD6F9"/>
+              <stop offset="0.229501" stop-color="#60E9D0"/>
+              <stop offset="0.650711" stop-color="#6DE9BB"/>
+              <stop offset="0.99354" stop-color="#ABE88E"/>
+            </linearGradient>
+            <linearGradient id="paint5_linear_55366_465" x1="53.2149" y1="69.5003" x2="146.152" y2="90.0555" gradientUnits="userSpaceOnUse">
+              <stop stop-color="white" stop-opacity="0"/>
+              <stop offset="0.458511" stop-color="white"/>
+              <stop offset="1" stop-color="white" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="paint6_linear_55366_465" x1="84.0312" y1="149.117" x2="86.2272" y2="83.943" gradientUnits="userSpaceOnUse">
+              <stop offset="0.204642" stop-color="#063D3B" stop-opacity="0"/>
+              <stop offset="0.58553" stop-color="#063D3B" stop-opacity="0.236587"/>
+              <stop offset="0.872285" stop-color="#063D3B" stop-opacity="0.75"/>
+            </linearGradient>
+            <linearGradient id="paint7_linear_55366_465" x1="14.9848" y1="142.636" x2="94.4055" y2="157.572" gradientUnits="userSpaceOnUse">
+              <stop stop-color="white" stop-opacity="0"/>
+              <stop offset="0.458511" stop-color="white"/>
+              <stop offset="1" stop-color="white" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="paint8_linear_55366_465" x1="72.3556" y1="213.178" x2="56.8635" y2="137.409" gradientUnits="userSpaceOnUse">
+              <stop offset="0.064" stop-color="#063D3B" stop-opacity="0"/>
+              <stop offset="0.17" stop-color="#063D3B" stop-opacity="0.135"/>
+              <stop offset="0.562" stop-color="#063D3B" stop-opacity="0.599"/>
+              <stop offset="0.85" stop-color="#063D3B" stop-opacity="0.9"/>
+              <stop offset="1" stop-color="#063D3B"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        Microsoft Fabric
+      </span>
+      <h1 class="proj-title">Eventstream in Microsoft Fabric</h1>
+      <p class="proj-tagline">
+        A visual topology editor that lets data engineers build real-time
+        pipelines on a canvas — ingest, transform with code and no code, and
+        route data into destinations — schema-aware from source to destination.
+      </p>
+      <div class="proj-banner card__media--eventstream card__media--shot" aria-hidden="true">
+        <img class="es-shot" src="assets/eventstream-preview.png" alt="" loading="lazy" />
+      </div>
+    </div>
+
+    <div class="proj-credits reveal">
+      <dl class="proj-credits__item">
+        <dt>Team</dt>
+        <dd>1 Product designer</dd>
+        <dd>3 Product managers (Xu Jiang, Alex Lin, Wenyang Shi)</dd>
+        <dd>20+ Engineers</dd>
+      </dl>
+      <dl class="proj-credits__item">
+        <dt>My role</dt>
+        <dd>Sole designer 0→1</dd>
+        <dd>UX researcher</dd>
+      </dl>
+    </div>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Introduction</span>
+      <h2>What is Fabric?</h2>
+      <p>
+        <strong>Microsoft Fabric</strong>, one of Microsoft's fastest-growing
+        analytics platforms, is a unified, cloud-based data platform that brings
+        together everything needed to work with data — from
+        <strong>data ingestion</strong> and <strong>transformation</strong> to
+        <strong>data analytics</strong> and <strong>visualization</strong> — in a
+        single experience.
+      </p>
+      <p>
+        It combines capabilities across <strong>data engineering</strong>,
+        <strong>data science</strong>, <strong>real-time analytics</strong>, and
+        <strong>business intelligence</strong> (including Power BI for reporting
+        and insight sharing), all built on a shared data foundation.
+      </p>
+      <p>
+        Fabric also integrates <strong>AI</strong> and <strong>Copilot</strong>
+        experiences to help automate tasks, generate insights, and accelerate
+        data workflows.
+      </p>
+      <p>
+        By consolidating traditionally fragmented tools into one platform, Fabric
+        enables teams to work on the same data without duplication or complex
+        integrations. With AI assistance, Fabric empowers both technical and
+        non-technical users to turn data into actionable insights faster.
+      </p>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Overview</span>
+      <h2>A native, real-time streaming experience in Fabric</h2>
+      <p>
+        Eventstream is one of Microsoft Fabric's foundational Real-Time
+        Intelligence experiences, designed to help organizations ingest,
+        process, transform, and route streaming data from a variety of sources
+        into analytics destinations in real time. Built as a native Fabric
+        experience, Eventstream enables users to create end-to-end streaming
+        pipelines through a visual interface, reducing the complexity
+        traditionally associated with real-time data systems.
+      </p>
+      <p>
+        As one of the earliest workloads in Fabric, Eventstream played a
+        critical role in establishing Fabric's vision of delivering a unified
+        data platform where users can move seamlessly from data ingestion to
+        analytics and business intelligence without leaving the ecosystem.
+      </p>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Why we built it</span>
+      <h2>Real-time data was powerful, but hard to reach</h2>
+      <p>
+        Modern organizations generate massive amounts of real-time data from
+        applications, devices, databases, clickstreams, and cloud services.
+        While this data holds significant business value, working with it often
+        requires specialized expertise and multiple disconnected tools.
+      </p>
+      <p>
+        As Microsoft Fabric was being created as a unified data platform, there
+        was an opportunity to rethink how users interacted with streaming data.
+        Instead of forcing users to stitch together complex services and
+        infrastructure, we wanted to create an experience where ingesting and
+        moving real-time data could be as approachable as building a data
+        report.
+      </p>
+      <p>
+        Eventstream was conceived as a foundational building block of Fabric —
+        providing a simple, visual way to connect, transform, and route
+        streaming data while integrating seamlessly with the rest of the
+        platform.
+      </p>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Product vision</span>
+      <h2>Make real-time data accessible to everyone</h2>
+      <p>
+        Our vision was to make real-time data accessible to more than just
+        streaming specialists.
+      </p>
+      <p>
+        We set out to create a low-code, visual experience that would allow
+        data engineers, analysts, and developers to build streaming data
+        pipelines without needing deep expertise in distributed systems or event
+        processing technologies.
+      </p>
+      <p>By embedding Eventstream directly within Fabric, users could:</p>
+      <ul class="proj-highlights">
+        <li>Connect to live data sources</li>
+        <li>Transform and enrich streaming data</li>
+        <li>Route events to multiple destinations</li>
+        <li>Analyze data in real time</li>
+        <li>Surface insights through Power BI dashboards and reports</li>
+        <li>Leverage AI-powered capabilities across the Fabric ecosystem</li>
+      </ul>
+      <p>
+        Ultimately, the goal was to shorten the path from raw events to business
+        insights and establish the real-time foundation for future Fabric
+        experiences.
+      </p>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">My role</span>
+      <h2>Designing a 0→1 product from the ground up</h2>
+      <p>
+        As a Product Designer on the Real-Time Intelligence team, I helped
+        define and design the end-to-end Eventstream experience from the ground
+        up.
+      </p>
+      <p>My responsibilities included:</p>
+      <ul class="proj-highlights">
+        <li>Driving the product UX vision alongside PM and engineering partners</li>
+        <li>Designing core workflows for creating and managing streaming pipelines</li>
+        <li>Defining interaction patterns for sources, transformations, and destinations</li>
+        <li>Conducting competitive analysis and customer research</li>
+        <li>Iterating on concepts through prototyping and usability testing</li>
+        <li>Collaborating across multiple Fabric teams to ensure consistency within the broader platform</li>
+      </ul>
+      <p>
+        Because Eventstream was a 0→1 product, many interaction patterns,
+        terminology, and mental models had to be established from scratch.
+      </p>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Business scale</span>
+      <h2>Serving a business at scale</h2>
+      <p>
+        Within the Eventstream item, we deliver real-time data streaming
+        capabilities that power a fast-growing business, driving meaningful
+        impact across adoption, customer reach, and revenue.
+      </p>
+      <div class="proj-stats">
+        <div class="proj-stat">
+          <div class="proj-stat__num">~20K</div>
+          <div class="proj-stat__label">Monthly active users</div>
+        </div>
+        <div class="proj-stat">
+          <div class="proj-stat__num">19K+</div>
+          <div class="proj-stat__label">Customers</div>
+        </div>
+        <div class="proj-stat">
+          <div class="proj-stat__num">~$2M</div>
+          <div class="proj-stat__label">Revenue per month (as of June 2026)</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Features</span>
+      <h2>Explore the design</h2>
+
+      <a
+        class="feature feature--proto"
+        href="eventstream-proto/#eventstream"
+        target="_blank"
+        rel="noopener"
+      >
+        <span class="feature__sheen" aria-hidden="true"></span>
+        <span class="feature__text">
+          <span class="feature__name">Explore eventstream</span>
+          <span class="feature__desc">
+            Follow events across the topology in real time, monitor the health
+            of every source, transform, and destination, and edit the stream
+            to transform and enrich data as it flows.
+          </span>
+        </span>
+        <span class="feature__cta">Open prototype →</span>
+      </a>
+
+      <button
+        type="button"
+        class="feature feature--proto"
+        data-embed-modal="sql-enrichment"
+      >
+        <span class="feature__sheen" aria-hidden="true"></span>
+        <span class="feature__text">
+          <span class="feature__name">Enrich streams with SQL code</span>
+          <span class="feature__desc">
+            For technical users, Eventstream also supports SQL-based
+            enrichment — write familiar SQL to transform, join, and shape
+            streaming data with full control over the logic.
+          </span>
+        </span>
+        <span class="feature__cta">Open prototype →</span>
+      </button>
+    </section>
+  </main>
+  </div>
+
+  <!-- Full-screen embedded prototype modal — SQL enrichment -->
+  <div
+    class="embed-modal"
+    id="sql-enrichment"
+    role="dialog"
+    aria-modal="true"
+    aria-label="SQL enrichment prototype"
+    hidden
+  >
+    <div class="embed-modal__backdrop" data-embed-close></div>
+    <div class="embed-modal__panel">
+      <button
+        type="button"
+        class="embed-modal__close"
+        data-embed-close
+        aria-label="Close prototype"
+      >
+        ✕
+      </button>
+      <iframe
+        class="embed-modal__frame"
+        data-embed-src="https://embed.figma.com/proto/UzitSusADiIlH81g6p8UiC/SQL-enrichment?node-id=1-39830&viewport=168%2C309%2C0.19&scaling=contain&content-scaling=fixed&starting-point-node-id=1%3A39830&page-id=0%3A1&embed-host=share"
+        title="SQL enrichment — Figma prototype"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

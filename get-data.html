@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get data — Fabric Real-Time Intelligence — Fangying Lin</title>
+  <meta name="description" content="Microsoft Fabric Real-Time Intelligence Get data — a unified, end-to-end ingestion experience for bringing real-time data into Fabric." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    // Apply saved theme before paint to avoid a flash.
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (!t) {
+          t = window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+      // Case studies are locked until unlocked from the home page.
+      try {
+        if (localStorage.getItem("portfolio-unlocked") !== "1") {
+          window.location.replace("index.html");
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="project-page">
+  <div class="app" data-nav-collapsed="false">
+    <button class="theme-switch" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+      <span class="theme-switch__icons" aria-hidden="true">
+        <span class="theme-toggle__icon theme-toggle__icon--sun">☀</span>
+        <span class="theme-toggle__icon theme-toggle__icon--moon">☾</span>
+      </span>
+      <span class="theme-switch__label">Switch to dark mode</span>
+    </button>
+    <div class="floating-controls">
+      <button class="nav-reopen has-tip has-tip--right" type="button" aria-label="Open navigation" data-tip="Expand">
+        <span aria-hidden="true">☰</span>
+      </button>
+    </div>
+    <aside class="sidebar" aria-label="Primary">
+      <div class="profile">
+        <div class="profile__meta">
+          <span class="profile__name">Fangying Lin</span>
+        </div>
+        <div class="profile__controls">
+          <button class="square-btn nav-collapse has-tip" type="button" aria-label="Collapse navigation" data-tip="Collapse">
+            <span class="nav-collapse__icon" aria-hidden="true">«</span>
+          </button>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="nav__item" href="index.html#about">
+          About me
+        </a>
+
+        <p class="nav__group">Microsoft Fabric</p>
+        <a class="nav__item" href="eventstream.html">Eventstream in Microsoft Fabric</a>
+        <a class="nav__item" href="business-events.html">Business Events in Microsoft Fabric</a>
+        <a class="nav__item" href="get-data.html">Get data</a>
+        <a class="nav__item" href="custom-connector.html">Custom stream connector</a>
+
+        <p class="nav__group">Cornerstone Global Partner</p>
+        <a class="nav__item" href="top20talent.html">Top20Talent Portal</a>
+
+        <hr class="nav__divider" aria-hidden="true" />
+        <p class="nav__group">Connect with me</p>
+        <a class="nav__item" href="#">Resume</a>
+        <a class="nav__item" href="mailto:deniselin0114@gmail.com">Email me</a>
+      </nav>
+    </aside>
+
+  <main class="proj">
+    <div class="proj-hero reveal">
+      <span class="proj-eyebrow">
+        <svg class="proj-eyebrow__logo" width="20" height="20" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M30.0801 168.53L26.9556 179.966C25.7912 183.624 24.1601 188.997 23.2801 193.779C22.0267 197.086 21.3423 200.673 21.3423 204.419C21.3423 219.868 33.0134 232.588 48.0178 234.25C52.2401 234.859 57.0178 234.828 62.3734 234.042L86.9778 230.646C93.1645 229.793 98.2445 225.326 99.8889 219.299L116.822 157.104L30.0801 168.53Z" fill="url(#gd_p0)"/>
+          <path d="M54.0786 171.476C28.1452 175.494 22.8208 195.063 22.8208 195.063L47.6564 103.809L177.43 86.2538L159.732 150.534C158.812 153.978 155.919 156.618 152.332 157.165L151.607 157.285L53.3497 171.6L54.0786 171.476Z" fill="url(#gd_p1)"/>
+          <path d="M54.0786 171.476C28.1452 175.494 22.8208 195.063 22.8208 195.063L47.6564 103.809L177.43 86.2538L159.732 150.534C158.812 153.978 155.919 156.618 152.332 157.165L151.607 157.285L53.3497 171.6L54.0786 171.476Z" fill="url(#gd_p2)" fill-opacity="0.8"/>
+          <path d="M68.7944 113.253L212.461 92.0311C215.879 91.5644 218.648 89.0622 219.519 85.7866L234.346 32.1289C234.55 31.4 234.657 30.6311 234.657 29.84C234.657 25.1422 230.852 21.3333 226.15 21.3333C225.786 21.3333 225.421 21.3555 225.07 21.4L87.9855 41.6578C73.0966 44.0489 61.0744 55.0311 57.1722 69.3555L37.4033 141.004C41.3722 126.511 43.8122 117.773 68.7944 113.253Z" fill="url(#gd_p3)"/>
+          <path d="M68.7944 113.253L212.461 92.0311C215.879 91.5644 218.648 89.0622 219.519 85.7867L234.346 32.1289C234.55 31.4 234.657 30.6311 234.657 29.84C234.657 25.1422 230.852 21.3333 226.15 21.3333C225.786 21.3333 225.421 21.3555 225.07 21.4L87.9855 41.6578C73.0966 44.0489 61.0744 55.0311 57.1722 69.3555L37.4033 141.004C41.3722 126.511 43.8122 117.773 68.7944 113.253Z" fill="url(#gd_p4)"/>
+          <path d="M68.7944 113.253L212.461 92.0311C215.879 91.5644 218.648 89.0622 219.519 85.7867L234.346 32.1289C234.55 31.4 234.657 30.6311 234.657 29.84C234.657 25.1422 230.852 21.3333 226.15 21.3333C225.786 21.3333 225.421 21.3555 225.07 21.4L87.9855 41.6578C73.0966 44.0489 61.0744 55.0311 57.1722 69.3555L37.4033 141.004C41.3722 126.511 43.8122 117.773 68.7944 113.253Z" fill="url(#gd_p5)" fill-opacity="0.4"/>
+          <path d="M68.7941 113.257C47.9897 117.022 42.8252 123.724 39.3852 134.226L22.8208 195.075C22.8208 195.075 28.1141 175.702 53.7319 171.559L151.612 157.302L152.336 157.182C155.923 156.635 158.816 153.99 159.736 150.55L174.296 97.6704L68.7941 113.257Z" fill="url(#gd_p6)"/>
+          <path d="M68.7941 113.257C47.9897 117.022 42.8252 123.724 39.3852 134.226L22.8208 195.075C22.8208 195.075 28.1141 175.702 53.7319 171.559L151.612 157.302L152.336 157.182C155.923 156.635 158.816 153.99 159.736 150.55L174.296 97.6704L68.7941 113.257Z" fill="url(#gd_p7)" fill-opacity="0.2"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M53.7334 171.56C32.0845 175.062 24.9734 189.4 23.2801 193.769C22.0267 197.084 21.3423 200.671 21.3423 204.418C21.3423 219.866 33.0134 232.586 48.0178 234.249C52.2401 234.858 57.0178 234.826 62.3734 234.04L86.9778 230.644C93.1645 229.791 98.2445 225.324 99.8889 219.298L115.324 162.591L53.7378 171.564L53.7334 171.56Z" fill="url(#gd_p8)"/>
+          <defs>
+            <linearGradient id="gd_p0" x1="69.0801" y1="234.673" x2="69.0801" y2="157.104" gradientUnits="userSpaceOnUse"><stop offset="0.056" stop-color="#2AAC94"/><stop offset="0.155" stop-color="#239C87"/><stop offset="0.372" stop-color="#177E71"/><stop offset="0.588" stop-color="#0E6961"/><stop offset="0.799" stop-color="#095D57"/><stop offset="1" stop-color="#085954"/></linearGradient>
+            <linearGradient id="gd_p1" x1="167.098" y1="178.388" x2="92.1941" y2="96.9205" gradientUnits="userSpaceOnUse"><stop offset="0.0417478" stop-color="#ABE88E"/><stop offset="0.548926" stop-color="#2AAA92"/><stop offset="0.906" stop-color="#117865"/></linearGradient>
+            <linearGradient id="gd_p2" x1="-16.9721" y1="174.428" x2="54.3093" y2="150.119" gradientUnits="userSpaceOnUse"><stop stop-color="#6AD6F9"/><stop offset="1" stop-color="#6AD6F9" stop-opacity="0"/></linearGradient>
+            <linearGradient id="gd_p3" x1="37.4033" y1="81.1689" x2="227.141" y2="81.1689" gradientUnits="userSpaceOnUse"><stop offset="0.043" stop-color="#25FFD4"/><stop offset="0.874" stop-color="#55DDB9"/></linearGradient>
+            <linearGradient id="gd_p4" x1="37.4033" y1="54.6488" x2="208.319" y2="134.014" gradientUnits="userSpaceOnUse"><stop stop-color="#6AD6F9"/><stop offset="0.229501" stop-color="#60E9D0"/><stop offset="0.650711" stop-color="#6DE9BB"/><stop offset="0.99354" stop-color="#ABE88E"/></linearGradient>
+            <linearGradient id="gd_p5" x1="53.2149" y1="69.5003" x2="146.152" y2="90.0555" gradientUnits="userSpaceOnUse"><stop stop-color="white" stop-opacity="0"/><stop offset="0.458511" stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient>
+            <linearGradient id="gd_p6" x1="84.0312" y1="149.117" x2="86.2272" y2="83.943" gradientUnits="userSpaceOnUse"><stop offset="0.204642" stop-color="#063D3B" stop-opacity="0"/><stop offset="0.58553" stop-color="#063D3B" stop-opacity="0.236587"/><stop offset="0.872285" stop-color="#063D3B" stop-opacity="0.75"/></linearGradient>
+            <linearGradient id="gd_p7" x1="14.9848" y1="142.636" x2="94.4055" y2="157.572" gradientUnits="userSpaceOnUse"><stop stop-color="white" stop-opacity="0"/><stop offset="0.458511" stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient>
+            <linearGradient id="gd_p8" x1="72.3556" y1="213.178" x2="56.8635" y2="137.409" gradientUnits="userSpaceOnUse"><stop offset="0.064" stop-color="#063D3B" stop-opacity="0"/><stop offset="0.17" stop-color="#063D3B" stop-opacity="0.135"/><stop offset="0.562" stop-color="#063D3B" stop-opacity="0.599"/><stop offset="0.85" stop-color="#063D3B" stop-opacity="0.9"/><stop offset="1" stop-color="#063D3B"/></linearGradient>
+          </defs>
+        </svg>
+        Microsoft Fabric
+      </span>
+      <h1 class="proj-title">Fabric Real-Time Intelligence: Get data</h1>
+      <p class="proj-tagline">
+        Transforming fragmented, inconsistent ingestion flows into a unified,
+        intuitive, end-to-end experience that helps users bring real-time data
+        into Fabric quickly and confidently.
+      </p>
+      <div class="proj-banner card__media--getdata" aria-hidden="true">
+        <span class="media-glyph">⤓</span>
+      </div>
+    </div>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Overview</span>
+      <h2>A unified ingestion experience for Real-Time Intelligence</h2>
+      <ul class="proj-highlights">
+        <li>
+          <strong>Role</strong> — solo Product Designer owning the end-to-end UX,
+          partnering with 4+ product managers across different aspects of the
+          Get data flow and 2 development teams (20+ engineers).
+        </li>
+        <li>
+          <strong>Scope</strong> — the RTI ingestion experience across 3+ teams
+          and time zones (Eventstream, Real-Time hub, Eventhouse, and more).
+        </li>
+        <li>
+          <strong>Impact</strong> — a universal experience to ingest data across
+          multiple items, improving usability, reducing drop-offs, and enabling
+          complete ingestion workflows.
+        </li>
+      </ul>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Problem statement</span>
+      <h2>A fragmented and confusing ingestion experience</h2>
+      <p>
+        From research and internal discussions, we identified several critical
+        issues:
+      </p>
+      <ul class="proj-highlights">
+        <li>Multiple <strong>disconnected “Get data” experiences</strong> across RTI workloads.</li>
+        <li>Users had to switch between <strong>different wizards and mental models</strong>.</li>
+        <li>The lack of an <strong>end-to-end flow (source → destination)</strong> caused incomplete setups.</li>
+      </ul>
+
+      <h3 class="proj-subhead">Users were dropping off mid-flow</h3>
+      <ul class="proj-highlights">
+        <li>Many users successfully connected their data…</li>
+        <li>…but <strong>never completed the pipeline</strong> by adding a destination.</li>
+      </ul>
+      <div class="proj-takeaway-note">
+        <span class="proj-takeaway-note__label">Result</span>
+        <p>
+          Data was ingested into Fabric but
+          <strong>never used or activated</strong> — leading to a poor
+          perception of product value.
+        </p>
+      </div>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Design goal</span>
+      <h2>A unified, intelligent ingestion experience</h2>
+      <p>An experience that:</p>
+      <ul class="proj-highlights">
+        <li>Works <strong>across all RTI entry points</strong>.</li>
+        <li>Guides users from <strong>source selection → ingestion → destination</strong>.</li>
+        <li>Reduces cognitive load while still supporting advanced scenarios.</li>
+        <li>Delivers a <strong>consistent experience across workloads</strong>.</li>
+        <li>Lets users ingest data <strong>quickly and reliably with minimal configuration</strong>.</li>
+      </ul>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Key design principles &amp; solution</span>
+      <h2>Browse, connect, and complete — end to end</h2>
+      <p>
+        We divided the flow into three aspects: the <strong>browsing</strong>
+        state, the <strong>connecting</strong> steps, and the
+        <strong>end-to-end</strong> behavior.
+      </p>
+
+      <h3 class="proj-subhead">Browse</h3>
+      <p>
+        For each starting point — the Real-Time hub, the Eventstream streaming
+        pipeline item, and destinations like Eventhouse and Activator — the
+        browsing experience keeps the same look and feel. Drawing on the strong
+        completion and success rates we measured from the Get data wizard across
+        Microsoft products, we inherited the wizard experience already supported
+        in Microsoft 365, Power BI, and Fabric, and extended it into a streaming
+        data browsing experience.
+      </p>
+      <p>
+        We segment users into day-0 users and users without streaming data, and
+        give each the right browsing experience. If a user is a Microsoft
+        customer who already has Azure data or Dataverse data, we make that data
+        quick and easy to access. For users with no existing data — day-0 and
+        new-to-Microsoft — we recommend the right data in the very first browsing
+        experience.
+      </p>
+      <p>
+        Together with the research team, we ran multiple user studies on the Get
+        data experience and validation. One key finding:
+      </p>
+      <p>
+        <strong>Start with data.</strong> In the browsing state, always start
+        with the data source. Instead of asking users to choose by technology
+        (real-time streaming, batch copy, etc.), we found that while browsing,
+        users care about <em>which source they're looking for</em> — they
+        consistently have a specific data source in mind.
+      </p>
+
+      <h3 class="proj-subhead">Connecting steps</h3>
+      <p>
+        After mapping how users move from different entry points, I designed a
+        universal set of connection steps validated against users' mental models.
+        After selecting or browsing a data source, the steps are:
+      </p>
+      <ul class="proj-highlights">
+        <li><strong>Configure the data source</strong> — create connections, select a topic, consumer group, choose a dataset, and so on.</li>
+        <li><strong>Preview the data stream</strong> — including preparing the data (deciding schemas) and updating the item that manages the streaming pipeline.</li>
+        <li><strong>Configure the destination</strong> — an optional step where users decide where to route the data.</li>
+        <li><strong>Finalize and run.</strong></li>
+      </ul>
+
+      <p>
+        <strong>System guided, user controlled.</strong> We recommend default
+        options automatically while leaving flexibility for advanced users. Based
+        on the data source, entry point, and more, we default the way users
+        ingest their streaming data.
+      </p>
+      <ul class="proj-highlights">
+        <li>
+          From telemetry on Eventhouse users, we know they are far more likely to
+          ingest data from Azure Event Hubs directly without transforming it
+          (82%+). For these cases, we customize the experience to default to
+          creating a shortcut to the Azure Event Hub, rather than copying the
+          data into Fabric.
+        </li>
+        <li>
+          Based on the type of source (CDC, streaming data, discrete events,
+          etc.) we also default the technical behavior. For CDC sources, we know
+          the schema is fixed — so we default to saving the schema to a universal
+          schema-management item and automatically applying schema changes to
+          data validation and destination table mapping.
+        </li>
+      </ul>
+
+      <p>
+        <strong>Progressive complexity.</strong> Keep the default experience
+        simple and reveal advanced options only when needed. Given the
+        complexity of data ingestion, we provide strong defaults grounded in
+        telemetry, research, and user studies, and surface only the necessary
+        setup in the UI — reducing drop-off and distraction.
+      </p>
+
+      <h3 class="proj-subhead">End-to-end behavior</h3>
+      <p>
+        Once users finish the wizard, the end-to-end flow tells the right story
+        and gives the right suggestions for next steps, so users understand where
+        their data goes and what to do next.
+      </p>
+      <p>
+        <strong>Maintain context.</strong> Respect the entry point so users
+        understand where they came from and where they are, with clear options to
+        jump to other items and why. The wizard-style ingestion also adapts the
+        experience dynamically to that context.
+      </p>
+
+      <div class="proj-takeaway-note">
+        <span class="proj-takeaway-note__label">Decisions</span>
+        <ol class="proj-decisions">
+          <li>Lead the browse experience with the data source, not the ingestion technology.</li>
+          <li>Default the setup to avoid confusion and complexity.</li>
+          <li>Use a data-driven approach to suggest different default options.</li>
+          <li>Maintain users in their context.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Key features</span>
+      <h2>What the unified experience delivers</h2>
+
+      <h3 class="proj-subhead">1. Unified entry across all RTI workloads</h3>
+      <ul class="proj-highlights">
+        <li>The same experience from Eventstream, Real-Time hub, Eventhouse, and more.</li>
+        <li>Eliminates fragmentation.</li>
+      </ul>
+      <div class="proj-takeaway-note">
+        <span class="proj-takeaway-note__label">Solves</span>
+        <p>
+          Inconsistent wizards and the cognitive cost of switching between
+          mental models.
+        </p>
+      </div>
+
+      <h3 class="proj-subhead">2. Built-in data preview, early in the flow</h3>
+      <ul class="proj-highlights">
+        <li>Users can preview data before ingestion.</li>
+        <li>Supports column selection, filtering, and schema understanding.</li>
+      </ul>
+      <div class="proj-takeaway-note">
+        <span class="proj-takeaway-note__label">Solves</span>
+        <p>
+          The gap in the current system, where the
+          <strong>lack of data preview makes validation difficult</strong>.
+        </p>
+      </div>
+
+      <h3 class="proj-subhead">3. Integrated destination step (end-to-end flow)</h3>
+      <ul class="proj-highlights">
+        <li>Destination configuration is part of the wizard, not a separate step.</li>
+        <li>Prevents incomplete ingestion setups.</li>
+      </ul>
+      <div class="proj-takeaway-note">
+        <span class="proj-takeaway-note__label">Solves</span>
+        <p>
+          User drop-off after data connection and unclear next steps.
+        </p>
+      </div>
+
+      <h3 class="proj-subhead">4. Smart defaults &amp; system recommendations</h3>
+      <ul class="proj-highlights">
+        <li>Automatically suggests an ingestion method and compatible destinations.</li>
+        <li>Users can override when needed.</li>
+      </ul>
+
+      <h3 class="proj-subhead">5. Support for advanced scenarios</h3>
+      <ul class="proj-highlights">
+        <li>Schema editing</li>
+        <li>Table mapping</li>
+        <li>Delta flow (CDC)</li>
+        <li>Event Hub mounting</li>
+      </ul>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Design challenges &amp; tradeoffs</span>
+      <h2>Balancing consistency, power, and context</h2>
+
+      <h3 class="proj-subhead">1. Handling different backend behaviors</h3>
+      <p>Eventstream and KQL have different preview logic:</p>
+      <ul class="proj-highlights">
+        <li><strong>Eventstream</strong> — preview from the source.</li>
+        <li><strong>KQL</strong> — sample the actual ingested data.</li>
+      </ul>
+      <div class="proj-takeaway-note">
+        <span class="proj-takeaway-note__label">Challenge</span>
+        <p>
+          Create a <strong>consistent UX despite different backend
+          implementations</strong>.
+        </p>
+      </div>
+
+      <h3 class="proj-subhead">2. Balancing simplicity vs. power</h3>
+      <ul class="proj-highlights">
+        <li>Beginners need guidance.</li>
+        <li>Experts need flexibility.</li>
+      </ul>
+      <div class="proj-takeaway-note">
+        <span class="proj-takeaway-note__label">Solution</span>
+        <p>
+          Progressive disclosure — keep the “happy path” simple.
+        </p>
+      </div>
+
+      <h3 class="proj-subhead">3. Supporting multiple entry points</h3>
+      <ul class="proj-highlights">
+        <li>Users start from different contexts.</li>
+        <li>Each context carries different expectations.</li>
+      </ul>
+      <div class="proj-takeaway-note">
+        <span class="proj-takeaway-note__label">Solution</span>
+        <p>
+          Context-aware defaults and adaptive destination selection.
+        </p>
+      </div>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Impact &amp; outcomes</span>
+      <h2>A unified, complete ingestion experience</h2>
+
+      <h3 class="proj-subhead">Product impact</h3>
+      <ul class="proj-highlights">
+        <li>Reduced user drop-off in ingestion flows.</li>
+        <li>Improved completion rate of end-to-end pipelines.</li>
+        <li>Better alignment across RTI workloads.</li>
+      </ul>
+
+      <h3 class="proj-subhead">Experience improvements</h3>
+      <table class="proj-compare">
+        <thead>
+          <tr><th>Before</th><th>After</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Fragmented flows</td><td>Unified, guided experience</td></tr>
+          <tr><td>No preview</td><td>Inline data validation</td></tr>
+          <tr><td>No clear next step</td><td>Complete ingestion pipeline</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Designer reflection</span>
+      <h2>What I learned</h2>
+      <ul class="proj-highlights">
+        <li>
+          <strong>End-to-end thinking matters.</strong> Designing only “getting
+          data” wasn't enough — users needed <strong>complete workflows</strong>.
+        </li>
+        <li>
+          <strong>Visibility drives confidence.</strong> Users won't proceed
+          without seeing the data, so preview became a core design pillar.
+        </li>
+        <li>
+          <strong>Systems design &gt; single-feature design.</strong> This
+          project required aligning multiple teams (Eventstream, KQL, RTI),
+          multiple workflows, and multiple user mental models.
+        </li>
+        <li>
+          <strong>Simplification is strategic.</strong> Instead of adding
+          features, we focused on <strong>reducing decisions and guiding
+          users</strong>.
+        </li>
+      </ul>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Interactive prototype</span>
+      <h2>Try the Get data flow</h2>
+      <p>Step through the experience the way a data engineer does.</p>
+
+      <h3 class="proj-subhead">Get data — browsing</h3>
+      <a class="feature feature--link" href="prototype-getdata.html">
+        <div>
+          <p class="feature__name">Day-0 users</p>
+          <p class="feature__desc">
+            How a brand-new user, with no streaming data yet, is guided to the
+            right sources from the first browse.
+          </p>
+        </div>
+        <span class="feature__cta">Open prototype →</span>
+      </a>
+      <a class="feature feature--link" href="prototype-getdata.html">
+        <div>
+          <p class="feature__name">Users with Microsoft data</p>
+          <p class="feature__desc">
+            How existing Microsoft customers reuse Azure and Dataverse data
+            they already have, quickly and easily.
+          </p>
+        </div>
+        <span class="feature__cta">Open prototype →</span>
+      </a>
+
+      <h3 class="proj-subhead">Get data — connect flows</h3>
+      <a class="feature feature--link" href="prototype-getdata.html">
+        <div>
+          <p class="feature__name">Real-time weather</p>
+          <p class="feature__desc">
+            Connect a live streaming source end to end — source → stream →
+            destination → review.
+          </p>
+        </div>
+        <span class="feature__cta">Open prototype →</span>
+      </a>
+      <a class="feature feature--link" href="prototype-getdata.html">
+        <div>
+          <p class="feature__name">MQTT</p>
+          <p class="feature__desc">
+            Ingest from an MQTT broker, with smart defaults for the streaming
+            connection settings.
+          </p>
+        </div>
+        <span class="feature__cta">Open prototype →</span>
+      </a>
+      <a class="feature feature--link" href="prototype-getdata.html">
+        <div>
+          <p class="feature__name">Azure SQL CDC</p>
+          <p class="feature__desc">
+            A change-data-capture source where the schema is fixed — defaulting
+            to universal schema management and automatic table mapping.
+          </p>
+        </div>
+        <span class="feature__cta">Open prototype →</span>
+      </a>
+    </section>
+  </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

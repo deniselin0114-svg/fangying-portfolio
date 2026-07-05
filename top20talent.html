@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Top20Talent Portal — Fangying Lin</title>
+  <meta name="description" content="Top20Talent — a B2C job-search platform. Redesigning the apply and register flow to lift conversion and reduce drop-off." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    // Apply saved theme before paint to avoid a flash.
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (!t) {
+          t = window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+      // Case studies are locked until unlocked from the home page.
+      try {
+        if (localStorage.getItem("portfolio-unlocked") !== "1") {
+          window.location.replace("index.html");
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="project-page">
+  <div class="app" data-nav-collapsed="false">
+    <button class="theme-switch" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+      <span class="theme-switch__icons" aria-hidden="true">
+        <span class="theme-toggle__icon theme-toggle__icon--sun">☀</span>
+        <span class="theme-toggle__icon theme-toggle__icon--moon">☾</span>
+      </span>
+      <span class="theme-switch__label">Switch to dark mode</span>
+    </button>
+    <div class="floating-controls">
+      <button class="nav-reopen has-tip has-tip--right" type="button" aria-label="Open navigation" data-tip="Expand">
+        <span aria-hidden="true">☰</span>
+      </button>
+    </div>
+    <aside class="sidebar" aria-label="Primary">
+      <div class="profile">
+        <div class="profile__meta">
+          <span class="profile__name">Fangying Lin</span>
+        </div>
+        <div class="profile__controls">
+          <button class="square-btn nav-collapse has-tip" type="button" aria-label="Collapse navigation" data-tip="Collapse">
+            <span class="nav-collapse__icon" aria-hidden="true">«</span>
+          </button>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="nav__item" href="index.html#about">
+          About me
+        </a>
+
+        <p class="nav__group">Microsoft Fabric</p>
+        <a class="nav__item" href="eventstream.html">Eventstream in Microsoft Fabric</a>
+        <a class="nav__item" href="business-events.html">Business Events in Microsoft Fabric</a>
+        <a class="nav__item" href="get-data.html">Get data</a>
+        <a class="nav__item" href="custom-connector.html">Custom stream connector</a>
+
+        <p class="nav__group">Cornerstone Global Partner</p>
+        <a class="nav__item" href="top20talent.html">Top20Talent Portal</a>
+
+        <hr class="nav__divider" aria-hidden="true" />
+        <p class="nav__group">Connect with me</p>
+        <a class="nav__item" href="#">Resume</a>
+        <a class="nav__item" href="mailto:deniselin0114@gmail.com">Email me</a>
+      </nav>
+    </aside>
+
+  <main class="proj">
+    <div class="proj-hero reveal">
+      <span class="proj-eyebrow">
+        <span class="card__logo card__logo--top20" aria-hidden="true"><svg class="card__logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="3,4 14,2 17,9.5 6,11.5" fill="#9e1c20"/><polygon points="7,12.5 18,10.5 21,18 10,20" fill="#d92b21"/></svg></span>
+        Cornerstone Global Partner
+      </span>
+      <h1 class="proj-title">Top20Talent Portal</h1>
+      <p class="proj-tagline">
+        Product Design — a B2C job-search platform. Redesigning the apply &amp;
+        register flow to lift conversion and reduce drop-off.
+      </p>
+      <div class="proj-banner card__media--top20 t20-stage" aria-hidden="true">
+        <div class="t20-window">
+          <div class="t20-window__bar">
+            <span class="t20-dot"></span>
+            <span class="t20-dot"></span>
+            <span class="t20-dot"></span>
+            <span class="t20-url">top20talent.com</span>
+          </div>
+          <div class="t20-screen">
+            <div class="t20-reel">
+              <img class="t20-frame" loading="lazy" alt=""
+                src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cb849a96ceb590cc76ad1_5.png" />
+              <img class="t20-frame" loading="lazy" alt=""
+                src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cb80ebb2a7f467cdc1613_Screen%20Shot%202021-11-23%20at%205.39.37%20PM.png" />
+              <img class="t20-frame" loading="lazy" alt=""
+                src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cb849a5b8a0e606b33b38_2.png" />
+              <img class="t20-frame" loading="lazy" alt=""
+                src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cb84a562c87caf4e1df3a_6.png" />
+              <img class="t20-frame" loading="lazy" alt=""
+                src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cbcc1bb2a7f6fdfdc321d_Screen%20Shot%202021-11-23%20at%206.02.40%20PM.png" />
+              <img class="t20-frame" loading="lazy" alt=""
+                src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cb849a96ceb590cc76ad1_5.png" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Context</span>
+      <h2>A B2C platform for job seekers</h2>
+      <p>
+        Top20Talent is a B2C platform I worked on at Cornerstone Global Partner,
+        a head-hunting company. One of my main roles there was to support and
+        enhance the design of Top20Talent — a portal where job seekers search
+        for high-quality roles head-hunters are working on, manage their
+        CV/profile, and easily apply and get contacted by head-hunters.
+      </p>
+      <p>
+        This case study focuses on how I enhanced the application/register
+        process — how I discovered UX problems based on user behavior, and how I
+        designed the solutions using UX research methods and UI design.
+      </p>
+      <p>
+        These strategies were designed under real constraints: a short-handed
+        development team and a limited budget. The goal was to use the lowest
+        cost to meet the must-have requirements.
+      </p>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Overview</span>
+      <h2>Low registration and low application conversion</h2>
+      <p>
+        Top20Talent had a low registration count and a low conversion rate on
+        applications. Stakeholders (partners/directors) wanted us to find a way
+        to increase the conversion rate and the number of completed
+        applications/registrations.
+      </p>
+      <p>I designed solutions to enhance three distinct conversion issues:</p>
+      <ul class="proj-highlights">
+        <li>
+          <strong>Application Start → Application Finish:</strong> redesign the
+          application/registering flow.
+        </li>
+        <li>
+          <strong>Job View → Application Start:</strong> enhance the job
+          match/search quality.
+        </li>
+        <li>
+          <strong>Internal job publishing rate:</strong> auto job-description
+          display.
+        </li>
+      </ul>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Problem defining</span>
+      <h2>Following the data to the drop-off</h2>
+      <p>
+        According to the data-tracking system, the main traffic to the job
+        description page — where candidates register and apply — came from job
+        floating EDMs. Over 80% of job seekers (64.3% from EDM campaigns + 16.3%
+        from job-portal visitors) reached the job description page after
+        receiving a job-ad EDM from the marketing team.
+      </p>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/6114e71234b9b55c0067c364_channels-p-1600.png"
+          alt="Breakdown of traffic channels and sources reaching the job description page"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          Channels &amp; sources — over 80% of candidates reach the job
+          description page via job-ad EDMs.
+        </figcaption>
+      </figure>
+      <p>
+        Looking at the conversion rate (Jan 1 – Feb 26), I noticed three issues:
+      </p>
+      <ul class="proj-highlights">
+        <li>Low conversion from viewing a job description to clicking apply.</li>
+        <li>
+          Low conversion from the job overview page (the search engine) to a job
+          description page.
+        </li>
+        <li>High drop-off rate during the apply/register flow.</li>
+      </ul>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/6114e4d7885f4025c75a0302_views%20and%20rates-p-1600.png"
+          alt="Job views and conversion rates showing low apply conversion and high drop-off"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          Views &amp; conversion rates — surfacing the low apply conversion and
+          high drop-off across the funnel.
+        </figcaption>
+      </figure>
+      <p>From here, I framed the research around three opportunities:</p>
+      <ul class="proj-highlights">
+        <li>
+          <strong>WHO</strong> — who are our EDM receivers? How do we select the
+          right users to float job ads to, and define our target audience among
+          a large database?
+        </li>
+        <li>
+          <strong>WHAT</strong> — what jobs/ads are we sending? If we have the
+          right users but they still don't apply, is it a matching issue, and
+          how do we improve match quality?
+        </li>
+        <li>
+          <strong>HOW</strong> — the process of applying: the UI and UX from job
+          description to register page. With the right people and right jobs,
+          why is drop-off still high?
+        </li>
+      </ul>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Project planning</span>
+      <h2>A four-phase plan</h2>
+      <ul class="proj-highlights">
+        <li>
+          <strong>Define</strong> — project goal, problem understanding,
+          stakeholder expectations, timeline, background information.
+        </li>
+        <li>
+          <strong>Research</strong> — Hotjar review (user-behavior study),
+          competitive analysis, user interviews, persona/user-journey map,
+          follow-up research.
+        </li>
+        <li>
+          <strong>Design &amp; groom features</strong> — design solutions,
+          feature/user-story grooming, design + prototype, stakeholder feedback.
+        </li>
+        <li>
+          <strong>Evaluate</strong> — usability testing, stakeholder feedback,
+          event tracking, kickoff meeting with developers.
+        </li>
+      </ul>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/6114f6a68435e608a7b6da59_%F0%9F%92%BB%20(B2C)%20Top20Talent%20Application%20Flow%20improvements%20(WSJF_8.5)%20(2-p-500.jpeg"
+          alt="Project plan outline for the Top20Talent application flow improvements, prioritized with WSJF"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          The project plan outline — scoped and prioritized with WSJF.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Research methods</span>
+      <h2>How I researched</h2>
+      <ul class="proj-highlights">
+        <li>
+          <strong>Competitive analysis</strong> — registered and applied on
+          competitor sites like Talent Pair to study their workflows.
+        </li>
+        <li>
+          <strong>Hotjar recording</strong> — filtered visitor screen
+          recordings by keywords like “job application” and reviewed 80+ of
+          them.
+        </li>
+        <li>
+          <strong>User interviews / surveys</strong> — reached out to users for
+          their experiences via phone interviews and surveys.
+        </li>
+        <li>
+          <strong>Usability tests</strong> — sat down with friends looking for
+          jobs, family members, and new Cornerstone employees to run tests.
+        </li>
+      </ul>
+      <p>
+        I recorded all findings, observations, interpretations, and insights in
+        Airtable:
+      </p>
+      <div class="proj-embed">
+        <iframe
+          src="https://airtable.com/embed/appx0peCAjSdWqYD1/shr7tWxaJbTPQbK6i/tbllK72b9D4VtkG1p?viewControls=on"
+          title="Top20Talent research findings in Airtable"
+          loading="lazy"
+        ></iframe>
+      </div>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Findings &amp; insights</span>
+      <h2>Five problems, five directions</h2>
+
+      <h3 class="feature__name">1. Candidates got stuck when registering to apply</h3>
+      <p>
+        First-time users must finish registration while applying. The original
+        flow skipped profile-filling and immediately redirected to the register
+        page to land candidates quickly — but this created confusion. Looking at
+        competitors like Career International and LinkedIn, one solution is to
+        “slow down” the redirect and add explicit instructions like “currently
+        at step 2 out of 2”.
+      </p>
+
+      <h3 class="feature__name">2. Candidates were confused about getting “published”</h3>
+      <p>
+        Candidates are encouraged to complete as much of their profile as
+        possible; consultants then review and make it public for clients to
+        search. To be “published”, candidates must complete a certain amount of
+        information — but they don't know which fields are required. The
+        “required” vs. “optional” distinction wasn't obvious enough; the profile
+        editing pages needed UI/UX improvements.
+      </p>
+
+      <h3 class="feature__name">3. Candidates weren't followed up in time</h3>
+      <p>
+        A repeated complaint was a lack of follow-up. Interviews with consultants
+        revealed candidates often had no resume attached, didn't qualify, or the
+        role was closed. Two fixes: improve job descriptions to be comprehensive
+        on experience requirements, and optimize communications such as email and
+        text messaging.
+      </p>
+
+      <h3 class="feature__name">4. Candidates couldn't find a matching job</h3>
+      <p>
+        Search yielded few matches because the job publishing rate was low —
+        7,488 live job orders with no offer made yet, but only 1,285 (17%)
+        displayed on the portal. Publishing takes time to write descriptions, and
+        applications often don't match. One solution: AI pre-fill the job
+        description based on the selected function/industry.
+      </p>
+
+      <h3 class="feature__name">5. Candidates didn't know if they had applied</h3>
+      <p>
+        A one-click apply for registered users showed an “applied successfully”
+        toast that disappeared in 5 seconds with no review or confirmation. The
+        fix: still record the one click as a successful application, but redirect
+        to a CV-selecting/profile-editing page so candidates can update their
+        profile and confirm their application.
+      </p>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Personas</span>
+      <h2>Who we designed for</h2>
+
+      <div class="feature feature--static">
+        <div>
+          <p class="feature__name">Jessie Lee</p>
+          <p class="feature__desc">
+            27, Production Engineer, Beijing, single, American-born Chinese.
+            Bilingual developer with 5 years' experience, actively looking for a
+            work-life-balanced role with a fair raise. Goals: search efficiently,
+            find culturally-matched opportunities, stay updated on new matches.
+            Frustrations: unclear company culture, no follow-up, confusing
+            registration, and uncertainty about whether she's applied.
+          </p>
+        </div>
+      </div>
+
+      <div class="feature feature--static">
+        <div>
+          <p class="feature__name">Simon Liu</p>
+          <p class="feature__desc">
+            53, CTO, Chinese living overseas, married, relocating to Shanghai. 30
+            years in pharmaceuticals; approached directly by a consultant before
+            registering. Goals: be matched and floated relevant jobs, and find a
+            long-term career consultant familiar with the China market.
+            Frustrations: didn't know how to apply to floated jobs and gave up
+            when he got stuck.
+          </p>
+        </div>
+      </div>
+
+      <p>
+        The user journey map showed the core failure point: for a non-registered
+        candidate, clicking apply immediately redirected to sign-up with no
+        explanation; for a registered candidate, “one-click apply” submitted
+        instantly without the user noticing. The flow was meant to streamline
+        applying, but the big skip and lack of UI indication caused a major drop
+        in conversion — users questioned the sudden redirect and lost track of
+        where they were.
+      </p>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Solution &amp; feature grooming</span>
+      <h2>Redesigning the register-to-apply workflow</h2>
+      <p>
+        After candidate interviews and reviewing competitor solutions, I
+        redesigned the register-to-complete-application workflow to fix problems
+        1 and 5:
+      </p>
+      <ul class="proj-highlights">
+        <li>Include steps for registering, e.g. “step 2 out of 2”.</li>
+        <li>Add an explicit title for each step.</li>
+        <li>Remove the misleading overlay-applying interaction.</li>
+        <li>
+          For registered candidates, after clicking apply, redirect to a “select
+          a resume file” or “update your profile” page.
+        </li>
+      </ul>
+      <p>
+        I presented the UI prototype to stakeholders, and after approval, groomed
+        features and user stories using an Agile product-management method.
+      </p>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/611535c8bffed5b17eecfadc_Screen%20Shot%202021-08-12%20at%2010.52.16%20PM.png"
+          alt="UI prototype of the redesigned register-and-apply flow presented to stakeholders"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          The UI prototype presented to stakeholders for sign-off.
+        </figcaption>
+      </figure>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/6114cfda3c97ab2014e27ff2_register.gif"
+          alt="Animated walkthrough of a candidate moving through the redesigned Top20Talent register-and-apply flow"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          The redesigned register-and-apply flow — candidates move through clear,
+          explicit steps instead of an abrupt redirect.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">UI kit &amp; design rules</span>
+      <h2>Consistency through a shared system</h2>
+      <p>
+        Our UI kit includes UI symbols, typography rules, colors, and more. Once
+        a design idea was sorted, we reused as many existing symbols and icons as
+        possible. Using these rules, I created the final design in Sketch.
+      </p>
+      <p>
+        My role also included managing the UI kit — owning the shared symbols,
+        forms, and icons, and making sure the product's look and feel stayed
+        consistent and followed the patterns we wanted across the whole
+        candidate-facing experience.
+      </p>
+      <div class="proj-gallery">
+        <figure class="proj-gallery__item">
+          <img
+            class="proj-gallery__img"
+            src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619ca585a75d78365c6fbf6f_Concrete%20symbols-p-3200.png"
+            alt="UI kit — concrete symbols"
+            loading="lazy"
+          />
+        </figure>
+        <figure class="proj-gallery__item">
+          <img
+            class="proj-gallery__img"
+            src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619ca93d562c8705b1e1994d_Form.png"
+            alt="UI kit — form components"
+            loading="lazy"
+          />
+        </figure>
+        <figure class="proj-gallery__item">
+          <img
+            class="proj-gallery__img"
+            src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619caa2338b2025c3687765d_Icons.png"
+            alt="UI kit — icon set"
+            loading="lazy"
+          />
+        </figure>
+      </div>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">More about this platform</span>
+      <h2>More screens</h2>
+      <p>A few more views from across the candidate-facing product.</p>
+      <div class="proj-gallery">
+        <figure class="proj-gallery__item">
+          <img class="proj-gallery__img" loading="lazy"
+            src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cb849a96ceb590cc76ad1_5.png"
+            alt="Top20Talent screen" />
+        </figure>
+        <figure class="proj-gallery__item">
+          <img class="proj-gallery__img" loading="lazy"
+            src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cb80ebb2a7f467cdc1613_Screen%20Shot%202021-11-23%20at%205.39.37%20PM.png"
+            alt="Top20Talent screen" />
+        </figure>
+        <figure class="proj-gallery__item">
+          <img class="proj-gallery__img" loading="lazy"
+            src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cb849a5b8a0e606b33b38_2.png"
+            alt="Top20Talent screen" />
+        </figure>
+        <figure class="proj-gallery__item">
+          <img class="proj-gallery__img" loading="lazy"
+            src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cb84a562c87caf4e1df3a_6.png"
+            alt="Top20Talent screen" />
+        </figure>
+        <figure class="proj-gallery__item">
+          <img class="proj-gallery__img" loading="lazy"
+            src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cbcc1bb2a7f6fdfdc321d_Screen%20Shot%202021-11-23%20at%206.02.40%20PM.png"
+            alt="Top20Talent screen" />
+        </figure>
+        <figure class="proj-gallery__item">
+          <img class="proj-gallery__img" loading="lazy"
+            src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cb848ef5e406ad09621da_3.png"
+            alt="Top20Talent screen" />
+        </figure>
+        <figure class="proj-gallery__item">
+          <img class="proj-gallery__img" loading="lazy"
+            src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cbcefae033d5e79f1ed28_Screen%20Shot%202021-11-23%20at%206.03.01%20PM.png"
+            alt="Top20Talent screen" />
+        </figure>
+        <figure class="proj-gallery__item">
+          <img class="proj-gallery__img" loading="lazy"
+            src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/61a39c0f78986a7fc170b608_conversation2.png"
+            alt="Candidate–consultant conversation view" />
+        </figure>
+        <figure class="proj-gallery__item">
+          <img class="proj-gallery__img" loading="lazy"
+            src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/61a39bcc2b9190fb657d0879_Application%20tracking%20mobile%20feed%20bk%20for%201st%20interview.png"
+            alt="Application tracking mobile feed for first interview" />
+        </figure>
+        <figure class="proj-gallery__item">
+          <img class="proj-gallery__img" loading="lazy"
+            src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/61a39b4567abe34393eb3a60_desktop%20-%20no%20recommendation%20found%20copy%207.png"
+            alt="Desktop empty state — no recommendation found" />
+        </figure>
+        <figure class="proj-gallery__item">
+          <img class="proj-gallery__img" loading="lazy"
+            src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/61a3994a864af97ddee19574_add%20email%20or%20phone%20no.%20when%20applying.png"
+            alt="Add email or phone number when applying" />
+        </figure>
+        <figure class="proj-gallery__item">
+          <img class="proj-gallery__img" loading="lazy"
+            src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/61a37c0532e7366224213b97_Refer%20by%20email%20clicked.png"
+            alt="Refer a friend by email flow" />
+        </figure>
+      </div>
+    </section>
+  </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

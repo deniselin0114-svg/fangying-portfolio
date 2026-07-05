@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create business events with AI assistance — prototype</title>
+  <meta name="description" content="Click-through of the Create business events with AI assistance flow — a static, self-hosted walkthrough with no dependency on Figma." />
+  <style>
+    :root {
+      --fab-green: #0f7b3f;
+      --accent: #0d99ff;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --font: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: var(--font);
+      background: #1b1b1b;
+      color: #e8e8e8;
+      -webkit-font-smoothing: antialiased;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 10px; padding: 12px; height: 100vh; height: 100dvh; overflow: hidden;
+    }
+    button { font-family: inherit; cursor: pointer; }
+
+    .topbar {
+      width: 100%;
+      display: flex; align-items: center; gap: 12px; flex: 0 0 auto;
+    }
+    .topbar a {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      text-decoration: none; font-weight: 600; font-size: 13px; color: #cfcfcf;
+      padding: 6px 12px; border: 1px solid #3a3a3a; border-radius: 8px;
+      transition: background 0.18s var(--ease), color 0.18s var(--ease);
+    }
+    .topbar a:hover { background: #2a2a2a; color: #fff; }
+    .topbar__title { font-size: 13px; color: #9a9a9a; }
+    .topbar__title strong { color: #fff; font-weight: 600; }
+    .topbar__crumb { font-size: 12px; color: #7a7a7a; margin-left: 4px; }
+    .topbar__reset {
+      margin-left: auto; background: #2a2a2a; border: 1px solid #3a3a3a; color: #cfcfcf;
+      border-radius: 8px; padding: 6px 12px; font-size: 13px; font-weight: 600;
+    }
+    .topbar__reset:hover { background: #333; color: #fff; }
+    .topbar__reset:disabled { opacity: 0.4; cursor: default; }
+
+    .stagewrap {
+      flex: 1 1 auto; min-height: 0; width: 100%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .device {
+      height: 100%; width: auto; max-width: 100%;
+      /* Fallback until the real frame aspect ratio is measured in JS.
+         Without a defined width the box would collapse (all children are
+         absolutely positioned) and the stage would render blank. */
+      aspect-ratio: 16 / 9;
+      border-radius: 12px; overflow: hidden; position: relative;
+      box-shadow: 0 24px 70px -20px rgba(0,0,0,0.65);
+      background: #faf9f8;
+    }
+    /* Whole stage is the "next" affordance */
+    .device.is-clickable { cursor: pointer; }
+    .screen { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 0.22s var(--ease); }
+    .screen.is-active { opacity: 1; pointer-events: auto; }
+    .screen img {
+      display: block; width: 100%; height: 100%; object-fit: contain;
+      user-select: none; -webkit-user-drag: none; background: #faf9f8;
+    }
+
+    /* Prev / Next arrow overlays */
+    .nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 1px solid #3a3a3a; background: rgba(20,20,20,0.72);
+      color: #fff; font-size: 20px; line-height: 1;
+      display: grid; place-items: center; z-index: 3;
+      transition: background 0.18s var(--ease), opacity 0.18s var(--ease), transform 0.18s var(--ease);
+      backdrop-filter: blur(4px);
+    }
+    .nav:hover { background: rgba(40,40,40,0.9); transform: translateY(-50%) scale(1.06); }
+    .nav:disabled { opacity: 0.28; cursor: default; }
+    .nav--prev { left: 10px; }
+    .nav--next { right: 10px; }
+
+    .hintbar {
+      width: 100%; display: flex; align-items: center; gap: 10px; flex: 0 0 auto;
+      font-size: 12.5px; color: #9a9a9a;
+    }
+    .hintbar .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--fab-green); flex: 0 0 auto; }
+    .hintbar strong { color: #cfcfcf; font-weight: 600; }
+    .hintbar__spacer { margin-left: auto; }
+
+    /* Progress dots */
+    .dots { display: flex; gap: 6px; align-items: center; }
+    .dots button {
+      width: 8px; height: 8px; padding: 0; border-radius: 50%;
+      border: 0; background: #3f3f3f; transition: background 0.18s var(--ease), transform 0.18s var(--ease);
+    }
+    .dots button.is-active { background: var(--accent); transform: scale(1.25); }
+    .dots button:hover { background: #6a6a6a; }
+    .count { font-variant-numeric: tabular-nums; color: #cfcfcf; }
+
+    /* Empty / loading states */
+    .state {
+      position: absolute; inset: 0; display: none;
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 14px; text-align: center; padding: 24px;
+      color: #cfcfcf; background: #202020; border-radius: 12px;
+    }
+    .state.is-shown { display: flex; }
+    .state h2 { margin: 0; font-size: 18px; color: #fff; }
+    .state p { margin: 0; max-width: 520px; font-size: 13.5px; line-height: 1.5; color: #9a9a9a; }
+    .state code {
+      background: #111; border: 1px solid #333; border-radius: 6px;
+      padding: 1px 6px; font-size: 12.5px; color: #d7d7d7;
+    }
+    .spinner {
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 3px solid #333; border-top-color: var(--accent);
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .screen { transition: none; }
+      .spinner { animation-duration: 1.6s; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="business-events.html#try-prototype" id="backLink">← Back to case study</a>
+    <span class="topbar__title"><strong>Create business events</strong> — with AI assistance</span>
+    <span class="topbar__crumb" id="crumb"></span>
+    <button class="topbar__reset" id="resetBtn" type="button" disabled>↺ Restart</button>
+  </div>
+
+  <div class="stagewrap">
+    <div class="device" id="device" role="group" aria-label="Prototype click-through">
+      <button class="nav nav--prev" id="prevBtn" type="button" aria-label="Previous screen" disabled>‹</button>
+      <button class="nav nav--next" id="nextBtn" type="button" aria-label="Next screen" disabled>›</button>
+
+      <!-- Loading state -->
+      <div class="state is-shown" id="loadingState">
+        <div class="spinner" aria-hidden="true"></div>
+        <p>Loading prototype…</p>
+      </div>
+
+      <!-- Empty state (no frames exported yet) -->
+      <div class="state" id="emptyState">
+        <h2>Frames not added yet</h2>
+        <p>
+          Export the <strong>Create business events with AI assistance</strong>
+          frames from Figma and drop them into
+          <code>assets/business-events/</code> as
+          <code>1.png</code>, <code>2.png</code>, … in flow order.
+          See the folder's <code>README.md</code> for export steps. This player
+          discovers frames automatically — no code change needed.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="hintbar">
+    <span class="dot"></span>
+    <span id="hint">Click the screen or use the arrows to step through the flow.</span>
+    <span class="hintbar__spacer"></span>
+    <span class="count" id="count"></span>
+    <span class="dots" id="dots" role="tablist" aria-label="Jump to screen"></span>
+  </div>
+
+  <script>
+  (function () {
+    "use strict";
+    var BASE = "assets/business-events/";
+    var MAX_FRAMES = 60; // safety cap for auto-discovery
+
+    // ── Back link: if we arrived from the case study, go back through history
+    // so the browser restores the exact scroll position. Otherwise fall back
+    // to the anchored href (#try-prototype).
+    var backLink = document.getElementById("backLink");
+    if (backLink) {
+      backLink.addEventListener("click", function (e) {
+        try {
+          if (!document.referrer) return;
+          var ref = new URL(document.referrer);
+          if (
+            ref.origin === location.origin &&
+            /(^|\/)business-events\.html$/.test(ref.pathname)
+          ) {
+            e.preventDefault();
+            history.back();
+          }
+        } catch (_) { /* fall back to default navigation */ }
+      });
+    }
+
+    var device = document.getElementById("device");
+    var prevBtn = document.getElementById("prevBtn");
+    var nextBtn = document.getElementById("nextBtn");
+    var resetBtn = document.getElementById("resetBtn");
+    var hintEl = document.getElementById("hint");
+    var countEl = document.getElementById("count");
+    var dotsEl = document.getElementById("dots");
+    var crumbEl = document.getElementById("crumb");
+    var loadingState = document.getElementById("loadingState");
+    var emptyState = document.getElementById("emptyState");
+
+    var frames = [];   // array of loaded image src strings
+    var screens = [];  // <div.screen> nodes
+    var index = 0;
+
+    // ── Auto-discover frames: probe 1.png, 2.png, … until one is missing ──
+    function probe(n, onDone) {
+      if (n > MAX_FRAMES) return onDone();
+      var src = BASE + n + ".png";
+      var img = new Image();
+      img.onload = function () {
+        frames.push(src);
+        probe(n + 1, onDone);
+      };
+      img.onerror = function () {
+        onDone();
+      };
+      img.src = src;
+    }
+
+    function buildScreens() {
+      frames.forEach(function (src, i) {
+        var scr = document.createElement("div");
+        scr.className = "screen";
+        var im = document.createElement("img");
+        im.src = src;
+        im.alt = "Create business events — step " + (i + 1) + " of " + frames.length;
+        scr.appendChild(im);
+        device.appendChild(scr);
+        screens.push(scr);
+
+        var dot = document.createElement("button");
+        dot.type = "button";
+        dot.setAttribute("role", "tab");
+        dot.setAttribute("aria-label", "Go to screen " + (i + 1));
+        dot.addEventListener("click", function () { go(i); });
+        dotsEl.appendChild(dot);
+      });
+    }
+
+    function render() {
+      screens.forEach(function (s, i) {
+        s.classList.toggle("is-active", i === index);
+      });
+      Array.prototype.forEach.call(dotsEl.children, function (d, i) {
+        d.classList.toggle("is-active", i === index);
+      });
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === frames.length - 1;
+      resetBtn.disabled = index === 0;
+      countEl.textContent = (index + 1) + " / " + frames.length;
+      crumbEl.textContent = "Step " + (index + 1);
+      if (index === frames.length - 1) {
+        hintEl.innerHTML = "<strong>End of flow.</strong> Use ‹ or Restart to review again.";
+      } else {
+        hintEl.textContent = "Click the screen or use the arrows to step through the flow.";
+      }
+    }
+
+    function go(i) {
+      index = Math.max(0, Math.min(frames.length - 1, i));
+      render();
+    }
+    function next() { if (index < frames.length - 1) go(index + 1); }
+    function prev() { if (index > 0) go(index - 1); }
+
+    // ── Wire up once frames are known ──
+    function start() {
+      loadingState.classList.remove("is-shown");
+
+      if (!frames.length) {
+        emptyState.classList.add("is-shown");
+        countEl.textContent = "";
+        hintEl.textContent = "No frames found in assets/business-events/.";
+        return;
+      }
+
+      buildScreens();
+      device.classList.add("is-clickable");
+
+      // Size the device to the real frame aspect ratio so the stage isn't blank.
+      var firstImg = screens[0].querySelector("img");
+      function applyAspect() {
+        if (firstImg.naturalWidth && firstImg.naturalHeight) {
+          device.style.aspectRatio =
+            firstImg.naturalWidth + " / " + firstImg.naturalHeight;
+        }
+      }
+      if (firstImg.complete) applyAspect();
+      else firstImg.addEventListener("load", applyAspect, { once: true });
+
+      device.addEventListener("click", function (e) {
+        // Ignore clicks on the arrow controls.
+        if (e.target.closest(".nav")) return;
+        next();
+      });
+      nextBtn.addEventListener("click", function (e) { e.stopPropagation(); next(); });
+      prevBtn.addEventListener("click", function (e) { e.stopPropagation(); prev(); });
+      resetBtn.addEventListener("click", function () { go(0); });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowRight" || e.key === " " || e.key === "Enter") { e.preventDefault(); next(); }
+        else if (e.key === "ArrowLeft") { e.preventDefault(); prev(); }
+        else if (e.key === "Home") { e.preventDefault(); go(0); }
+      });
+
+      go(0);
+    }
+
+    probe(1, start);
+  })();
+  </script>
+</body>
+</html>

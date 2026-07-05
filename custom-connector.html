@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom stream connector — Fangying Lin</title>
+  <meta name="description" content="Microsoft Fabric Custom stream connector — bring your own streaming sources into Fabric." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    // Apply saved theme before paint to avoid a flash.
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (!t) {
+          t = window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+      // Case studies are locked until unlocked from the home page.
+      try {
+        if (localStorage.getItem("portfolio-unlocked") !== "1") {
+          window.location.replace("index.html");
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="project-page">
+  <div class="app" data-nav-collapsed="false">
+    <button class="theme-switch" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+      <span class="theme-switch__icons" aria-hidden="true">
+        <span class="theme-toggle__icon theme-toggle__icon--sun">☀</span>
+        <span class="theme-toggle__icon theme-toggle__icon--moon">☾</span>
+      </span>
+      <span class="theme-switch__label">Switch to dark mode</span>
+    </button>
+    <div class="floating-controls">
+      <button class="nav-reopen has-tip has-tip--right" type="button" aria-label="Open navigation" data-tip="Expand">
+        <span aria-hidden="true">☰</span>
+      </button>
+    </div>
+    <aside class="sidebar" aria-label="Primary">
+      <div class="profile">
+        <div class="profile__meta">
+          <span class="profile__name">Fangying Lin</span>
+        </div>
+        <div class="profile__controls">
+          <button class="square-btn nav-collapse has-tip" type="button" aria-label="Collapse navigation" data-tip="Collapse">
+            <span class="nav-collapse__icon" aria-hidden="true">«</span>
+          </button>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="nav__item" href="index.html#about">
+          About me
+        </a>
+
+        <p class="nav__group">Microsoft Fabric</p>
+        <a class="nav__item" href="eventstream.html">Eventstream in Microsoft Fabric</a>
+        <a class="nav__item" href="business-events.html">Business Events in Microsoft Fabric</a>
+        <a class="nav__item" href="get-data.html">Get data</a>
+        <a class="nav__item" href="custom-connector.html">Custom stream connector</a>
+
+        <p class="nav__group">Cornerstone Global Partner</p>
+        <a class="nav__item" href="top20talent.html">Top20Talent Portal</a>
+
+        <hr class="nav__divider" aria-hidden="true" />
+        <p class="nav__group">Connect with me</p>
+        <a class="nav__item" href="#">Resume</a>
+        <a class="nav__item" href="mailto:deniselin0114@gmail.com">Email me</a>
+      </nav>
+    </aside>
+
+  <main class="proj">
+    <div class="proj-hero reveal">
+      <span class="proj-eyebrow">
+        <svg class="proj-eyebrow__logo" width="20" height="20" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M30.0801 168.53L26.9556 179.966C25.7912 183.624 24.1601 188.997 23.2801 193.779C22.0267 197.086 21.3423 200.673 21.3423 204.419C21.3423 219.868 33.0134 232.588 48.0178 234.25C52.2401 234.859 57.0178 234.828 62.3734 234.042L86.9778 230.646C93.1645 229.793 98.2445 225.326 99.8889 219.299L116.822 157.104L30.0801 168.53Z" fill="url(#paint0_linear_55366_465)"/>
+          <path d="M54.0786 171.476C28.1452 175.494 22.8208 195.063 22.8208 195.063L47.6564 103.809L177.43 86.2538L159.732 150.534C158.812 153.978 155.919 156.618 152.332 157.165L151.607 157.285L53.3497 171.6L54.0786 171.476Z" fill="url(#paint1_linear_55366_465)"/>
+          <path d="M54.0786 171.476C28.1452 175.494 22.8208 195.063 22.8208 195.063L47.6564 103.809L177.43 86.2538L159.732 150.534C158.812 153.978 155.919 156.618 152.332 157.165L151.607 157.285L53.3497 171.6L54.0786 171.476Z" fill="url(#paint2_linear_55366_465)" fill-opacity="0.8"/>
+          <path d="M68.7944 113.253L212.461 92.0311C215.879 91.5644 218.648 89.0622 219.519 85.7866L234.346 32.1289C234.55 31.4 234.657 30.6311 234.657 29.84C234.657 25.1422 230.852 21.3333 226.15 21.3333C225.786 21.3333 225.421 21.3555 225.07 21.4L87.9855 41.6578C73.0966 44.0489 61.0744 55.0311 57.1722 69.3555L37.4033 141.004C41.3722 126.511 43.8122 117.773 68.7944 113.253Z" fill="url(#paint3_linear_55366_465)"/>
+          <path d="M68.7944 113.253L212.461 92.0311C215.879 91.5644 218.648 89.0622 219.519 85.7867L234.346 32.1289C234.55 31.4 234.657 30.6311 234.657 29.84C234.657 25.1422 230.852 21.3333 226.15 21.3333C225.786 21.3333 225.421 21.3555 225.07 21.4L87.9855 41.6578C73.0966 44.0489 61.0744 55.0311 57.1722 69.3555L37.4033 141.004C41.3722 126.511 43.8122 117.773 68.7944 113.253Z" fill="url(#paint4_linear_55366_465)"/>
+          <path d="M68.7944 113.253L212.461 92.0311C215.879 91.5644 218.648 89.0622 219.519 85.7867L234.346 32.1289C234.55 31.4 234.657 30.6311 234.657 29.84C234.657 25.1422 230.852 21.3333 226.15 21.3333C225.786 21.3333 225.421 21.3555 225.07 21.4L87.9855 41.6578C73.0966 44.0489 61.0744 55.0311 57.1722 69.3555L37.4033 141.004C41.3722 126.511 43.8122 117.773 68.7944 113.253Z" fill="url(#paint5_linear_55366_465)" fill-opacity="0.4"/>
+          <path d="M68.7941 113.257C47.9897 117.022 42.8252 123.724 39.3852 134.226L22.8208 195.075C22.8208 195.075 28.1141 175.702 53.7319 171.559L151.612 157.302L152.336 157.182C155.923 156.635 158.816 153.99 159.736 150.55L174.296 97.6704L68.7941 113.257Z" fill="url(#paint6_linear_55366_465)"/>
+          <path d="M68.7941 113.257C47.9897 117.022 42.8252 123.724 39.3852 134.226L22.8208 195.075C22.8208 195.075 28.1141 175.702 53.7319 171.559L151.612 157.302L152.336 157.182C155.923 156.635 158.816 153.99 159.736 150.55L174.296 97.6704L68.7941 113.257Z" fill="url(#paint7_linear_55366_465)" fill-opacity="0.2"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M53.7334 171.56C32.0845 175.062 24.9734 189.4 23.2801 193.769C22.0267 197.084 21.3423 200.671 21.3423 204.418C21.3423 219.866 33.0134 232.586 48.0178 234.249C52.2401 234.858 57.0178 234.826 62.3734 234.04L86.9778 230.644C93.1645 229.791 98.2445 225.324 99.8889 219.298L115.324 162.591L53.7378 171.564L53.7334 171.56Z" fill="url(#paint8_linear_55366_465)"/>
+          <defs>
+            <linearGradient id="paint0_linear_55366_465" x1="69.0801" y1="234.673" x2="69.0801" y2="157.104" gradientUnits="userSpaceOnUse">
+              <stop offset="0.056" stop-color="#2AAC94"/>
+              <stop offset="0.155" stop-color="#239C87"/>
+              <stop offset="0.372" stop-color="#177E71"/>
+              <stop offset="0.588" stop-color="#0E6961"/>
+              <stop offset="0.799" stop-color="#095D57"/>
+              <stop offset="1" stop-color="#085954"/>
+            </linearGradient>
+            <linearGradient id="paint1_linear_55366_465" x1="167.098" y1="178.388" x2="92.1941" y2="96.9205" gradientUnits="userSpaceOnUse">
+              <stop offset="0.0417478" stop-color="#ABE88E"/>
+              <stop offset="0.548926" stop-color="#2AAA92"/>
+              <stop offset="0.906" stop-color="#117865"/>
+            </linearGradient>
+            <linearGradient id="paint2_linear_55366_465" x1="-16.9721" y1="174.428" x2="54.3093" y2="150.119" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#6AD6F9"/>
+              <stop offset="1" stop-color="#6AD6F9" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="paint3_linear_55366_465" x1="37.4033" y1="81.1689" x2="227.141" y2="81.1689" gradientUnits="userSpaceOnUse">
+              <stop offset="0.043" stop-color="#25FFD4"/>
+              <stop offset="0.874" stop-color="#55DDB9"/>
+            </linearGradient>
+            <linearGradient id="paint4_linear_55366_465" x1="37.4033" y1="54.6488" x2="208.319" y2="134.014" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#6AD6F9"/>
+              <stop offset="0.229501" stop-color="#60E9D0"/>
+              <stop offset="0.650711" stop-color="#6DE9BB"/>
+              <stop offset="0.99354" stop-color="#ABE88E"/>
+            </linearGradient>
+            <linearGradient id="paint5_linear_55366_465" x1="53.2149" y1="69.5003" x2="146.152" y2="90.0555" gradientUnits="userSpaceOnUse">
+              <stop stop-color="white" stop-opacity="0"/>
+              <stop offset="0.458511" stop-color="white"/>
+              <stop offset="1" stop-color="white" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="paint6_linear_55366_465" x1="84.0312" y1="149.117" x2="86.2272" y2="83.943" gradientUnits="userSpaceOnUse">
+              <stop offset="0.204642" stop-color="#063D3B" stop-opacity="0"/>
+              <stop offset="0.58553" stop-color="#063D3B" stop-opacity="0.236587"/>
+              <stop offset="0.872285" stop-color="#063D3B" stop-opacity="0.75"/>
+            </linearGradient>
+            <linearGradient id="paint7_linear_55366_465" x1="14.9848" y1="142.636" x2="94.4055" y2="157.572" gradientUnits="userSpaceOnUse">
+              <stop stop-color="white" stop-opacity="0"/>
+              <stop offset="0.458511" stop-color="white"/>
+              <stop offset="1" stop-color="white" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="paint8_linear_55366_465" x1="72.3556" y1="213.178" x2="56.8635" y2="137.409" gradientUnits="userSpaceOnUse">
+              <stop offset="0.064" stop-color="#063D3B" stop-opacity="0"/>
+              <stop offset="0.17" stop-color="#063D3B" stop-opacity="0.135"/>
+              <stop offset="0.562" stop-color="#063D3B" stop-opacity="0.599"/>
+              <stop offset="0.85" stop-color="#063D3B" stop-opacity="0.9"/>
+              <stop offset="1" stop-color="#063D3B"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        Microsoft Fabric
+      </span>
+      <h1 class="proj-title">Custom stream connector</h1>
+      <p class="proj-tagline">
+        Let developers bring their own streaming sources into Fabric with a
+        configurable connector framework.
+      </p>
+      <div class="proj-banner card__media--connector card__media--shot" aria-hidden="true">
+        <img class="es-shot" src="assets/custom-connector-preview.png" alt="" loading="lazy" />
+      </div>
+
+    </div>
+
+    <div class="proj-credits reveal">
+      <dl class="proj-credits__item">
+        <dt>Team</dt>
+        <dd>1 Product designer</dd>
+        <dd>3 Product managers</dd>
+        <dd>12 Developers</dd>
+      </dl>
+      <dl class="proj-credits__item">
+        <dt>My role</dt>
+        <dd>Product designer + user researcher</dd>
+      </dl>
+    </div>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Problem definition</span>
+      <h2>Users get blocked when a connector is missing or restricted</h2>
+      <p>
+        Fabric users rely heavily on connectors to ingest real-time data from
+        a wide range of distributed systems. Today, Real-Time hub provides a
+        rich set of built-in streaming connectors across several major
+        categories:
+      </p>
+      <ul class="proj-list">
+        <li>
+          <strong>Cloud-native event streaming services</strong> — e.g., AWS
+          Kinesis, Confluent Cloud for Apache Kafka.
+        </li>
+        <li>
+          <strong>Azure messaging and event infrastructure</strong> — e.g.,
+          Azure Event Hubs, IoT Hub, Service Bus.
+        </li>
+        <li>
+          <strong>Change Data Capture (CDC) from operational databases</strong>
+          — e.g., SQL Database, MongoDB, Oracle Database.
+        </li>
+        <li>
+          <strong>API-based and protocol-driven ingestion</strong> — e.g.,
+          HTTP endpoints, Solace PubSub+.
+        </li>
+      </ul>
+      <p>
+        These connectors cover many common ingestion scenarios, but the
+        streaming ecosystem is significantly broader and constantly evolving.
+        When a team's source isn't covered, customers have to depend on
+        Microsoft to build the connector for them — a long process gated by the
+        platform roadmap. And some connectors
+        <strong>can't be shipped at all due to licensing restrictions</strong>.
+      </p>
+      <p>
+        <strong>The real user pain:</strong> users are blocked from bringing
+        data into Fabric when connectors are missing or restricted.
+      </p>
+      <ul class="proj-highlights">
+        <li>
+          Data engineers build <strong>temporary APIs, middleware, or polling
+          scripts</strong> when connectors don't exist.
+        </li>
+        <li>
+          Organizations can't ingest critical data, leaving them
+          <strong>blocked from using Fabric RTI</strong>.
+        </li>
+        <li>
+          The experience breaks the promise of “unified, real-time
+          intelligence.”
+        </li>
+      </ul>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Competitor study</span>
+      <h2>How other streaming products solve this</h2>
+      <p>
+        Every major streaming platform faces the same truth: there are far more
+        data systems in the world than the built-in connectors. We analyzed
+        competitors like Confluent, Cribl, and StreamSets, and found a
+        consistent pattern across the competitors — they each provide a
+        <strong>bring-your-own-connector capability</strong>.
+      </p>
+      <table class="proj-compare">
+        <thead>
+          <tr><th>Product</th><th>Extensibility model</th><th>How users add a custom source</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Confluent / Kafka Connect</th>
+            <td>Pluggable Kafka Connect connector plugins (SourceConnector / SourceTask), with the Confluent Hub marketplace.</td>
+            <td>Build a connector against the Connect API, package it as a ZIP/JAR plugin, then drop it on the worker plugin path — or upload it as a Custom Connector in Confluent Cloud and configure it through the UI.</td>
+          </tr>
+          <tr>
+            <th>Cribl Stream</th>
+            <td>Generic protocol sources plus configurable Collectors — no compiled plugin to ship.</td>
+            <td>Point an unsupported system at a Raw HTTP/TCP/UDP source, or use the REST/API and Script Collectors to pull from any endpoint or command; configs are editable and importable as JSON.</td>
+          </tr>
+          <tr>
+            <th>StreamSets (IBM)</th>
+            <td>Broad origin library plus a custom-stage SDK and generic origins.</td>
+            <td>Use the HTTP Client origin or scripting evaluators for ad-hoc sources, or build a custom origin with the Stage SDK and install it as a custom stage library.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="proj-compare-takeaway">
+        The study makes the path clear: a bring-your-own-connector capability
+        lets users upload and reuse open-source connectors, and bypass the
+        dependency on Microsoft — and the long wait — for a connector to be
+        built.
+      </p>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Product vision</span>
+      <h2>New "Custom stream connector" item in Fabric</h2>
+      <p>
+        We did some interviews with clients and existing users to validate our
+        approaches. With the goal to make this extensibility feel native and to
+        make the custom sources indistinguishable from the regular first-party
+        connectors, the PMs and I proposed the solution with a new Fabric item —
+        <strong>Custom Stream Connector</strong> — with the visions of ability
+        to upload connector packages, manage versions, and reuse the same
+        connector across multiple Eventstreams:
+      </p>
+      <ul class="proj-highlights">
+        <li>
+          <strong>Familiar add-source flow</strong> — the custom tile sits
+          alongside managed sources and follows the same configuration pattern.
+        </li>
+        <li>
+          <strong>Operable like any connector</strong> — once running, users can
+          inspect its state, metrics, and runtime logs.
+        </li>
+        <li>
+          <strong>Lifecycle management</strong> — a dedicated Custom Stream
+          Connector item lets users upload new versions, switch the default
+          version, and edit the connector's name, icon, and description.
+        </li>
+        <li>
+          <strong>CRUD configuration</strong> — a visual editor that previews
+          how the connector's form will render and supports friendly, in-place
+          updates and fixes.
+        </li>
+      </ul>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Target users</span>
+      <h2>Who we're solving this for</h2>
+      <p>
+        The feature is aimed at the people who already hit the edge of the
+        managed catalog — and have the means to extend it themselves.
+      </p>
+      <ul class="proj-highlights">
+        <li>
+          <strong>Data engineers &amp; platform teams</strong> with a
+          proprietary, internal, or niche streaming source that Fabric doesn't
+          ship a connector for, who can't wait on the platform roadmap.
+        </li>
+        <li>
+          <strong>Developers with Kafka Connect skills</strong> — comfortable
+          with Java, Maven, and the SourceConnector/SourceTask interfaces — who
+          can build or adapt a plugin themselves.
+        </li>
+        <li>
+          <strong>ISV partners</strong> who want to package and distribute their
+          own connector so their customers can stream that source into Fabric.
+        </li>
+        <li>
+          <strong>Teams reusing open-source connectors</strong> from GitHub or a
+          vendor, who just need a supported place to upload and run them.
+        </li>
+      </ul>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Research &amp; validation</span>
+      <h2>Validating the experience with real users</h2>
+      <p>
+        I wrote the research plan and ran <strong>5+ interviews</strong> with
+        target users — developers building their own plugins and partners
+        bringing existing ones — to test whether the upload-and-connect model
+        held up end to end, and where the authoring experience needed work.
+      </p>
+
+      <h3 class="proj-subhead">Research goals</h3>
+      <ul class="proj-highlights">
+        <li>
+          Discover a missing connector and identify the path to bring or upload
+          their own.
+        </li>
+        <li>
+          Understand item and connector naming — connector name vs. item name.
+        </li>
+        <li>
+          Read package-defined settings confidently — the configuration form
+          extracted from the uploaded connector.
+        </li>
+        <li>
+          Grasp and trust versioning behavior (default version, impact on
+          existing instances and Eventstreams), and surface needs for testing,
+          lineage, and governance.
+        </li>
+        <li>
+          Identify UI content gaps (tooltips, documentation, search/filter/tags)
+          and operational patterns — who uploads, who configures, and how they
+          verify.
+        </li>
+      </ul>
+
+      <h3 class="proj-subhead">Method</h3>
+      <p>
+        60-minute interviews combining open-ended validation with a 3-task
+        prototype walkthrough:
+      </p>
+      <ul class="proj-list">
+        <li>
+          <strong>Task 1</strong> — find and recognize the “upload custom
+          connector” entry point in the Real-Time hub.
+        </li>
+        <li>
+          <strong>Task 2</strong> — upload and create a custom connector.
+        </li>
+        <li>
+          <strong>Task 3</strong> — update and manage an existing connector.
+        </li>
+      </ul>
+      <p>
+        I recruited <strong>5 participants</strong> — 3 through the Fabric User
+        Panel and 2 clients already in contact with the PM team who had
+        expressed interest in the feature. Between sessions I iterated the
+        prototype based on findings to reach full comprehension and overall
+        satisfaction.
+      </p>
+
+      <h3 class="proj-subhead">Participants</h3>
+      <table class="proj-compare">
+        <thead>
+          <tr><th>Role &amp; org</th><th>Prior RTI experience</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Business Analyst / Data Analytics, Karinity (AU)</th>
+            <td>Uses Fabric pipelines; interested in RTI; builds API/RPA workarounds when no connector exists.</td>
+          </tr>
+          <tr>
+            <th>Director of Information Systems, Functional Devices (US)</th>
+            <td>Builds .NET middleware; uses Event Hub and Event Streams.</td>
+          </tr>
+          <tr>
+            <th>Platform Lead / Manager, KPN (NL)</th>
+            <td>High streaming maturity (Kafka/Confluent), beginner with Fabric RTI; huge scale (2,400 use cases).</td>
+          </tr>
+          <tr>
+            <th>Head of Data, Benfica (PT)</th>
+            <td>Operates stadium &amp; fan-engagement use cases; heavy APIs + Kafka; believes Kusto is the differentiator.</td>
+          </tr>
+          <tr>
+            <th>Consultant, Axians</th>
+            <td>Uses Fabric; used the eventhouse get-data wizard; interested in a SAP HANA connector.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 class="proj-subhead">What we found &amp; the decisions they drove</h3>
+      <ul class="proj-highlights">
+        <li>Upload entry points were found successfully.</li>
+        <li>Manage entry points were found successfully.</li>
+        <li>Users were unsure how to <em>build</em> a connector.</li>
+        <li>Users wanted clear indicators on self-uploaded connectors.</li>
+        <li>Users preferred the same name for the connector and the item.</li>
+        <li>Users understood the default version, but the “upgrade” path was missing.</li>
+      </ul>
+
+      <h4 class="proj-finding-title">1. Building a connector is the biggest unknown.</h4>
+      <p>
+        All 5
+        participants were concerned about how to build a connector that Fabric
+        would support — the “building the library” step was the part they were
+        most interested in yet felt least covered by the flow. Every one of them
+        asked for detailed documentation on getting a library ready.
+      </p>
+      <div class="proj-quote">
+        <p>"…it's about creating your own connectors. You've got your own
+          connector which you create based upon an SDK or an open standard like
+          Kafka itself, which you then can upload… But that's after I've already
+          explored. There is no default connector out-of-the-box available."</p>
+        <cite>— Platform Lead, KPN</cite>
+      </div>
+      <div class="proj-quote">
+        <p>"I don't know how the RTI part of the connector works, so I want to
+          explore how this thing works… for me the first thing is I want to go
+          to documentation."</p>
+        <cite>— Research participant</cite>
+      </div>
+      <div class="proj-takeaway-note">
+        <span class="proj-takeaway-note__label">Decision</span>
+        <p>
+          Treat documentation and build guidance as a first-class part of the
+          experience — surface clear “how to build a connector” pathways and
+          SDK/Kafka references at the entry point, not buried after upload.
+        </p>
+      </div>
+
+      <hr class="proj-finding-divider" aria-hidden="true" />
+
+      <h4 class="proj-finding-title">2. One name, not two.</h4>
+      <p>
+        In the first 4 studies we
+        separated connector settings into an <em>item name</em> (save location)
+        and a <em>connector name</em> (display alias). All 4 struggled to
+        differentiate them: only 2 correctly guessed that the connector name is
+        what shows on the Real-Time hub card while the item name is stored in the
+        workspace — 1 assumed the item name was the Eventstream connecting the
+        connector. Every participant suggested merging the two to make the
+        item-to-connector correlation obvious. One noted a reason to keep an
+        optional connector “label”: when a team has a strict item-naming
+        structure, a friendly label makes the card easier to read.
+      </p>
+      <div class="proj-quote">
+        <p>"Connector 'label' might be more clear than connector 'name'… can be
+          changed for easy to read when I have a complex naming structure for
+          items."</p>
+        <cite>— Research participant</cite>
+      </div>
+      <div class="proj-takeaway-note">
+        <span class="proj-takeaway-note__label">Decision</span>
+        <p>
+          Merge connector name and item name into a single name by default,
+          keeping an optional label override for teams with fixed naming
+          conventions.
+        </p>
+      </div>
+
+      <hr class="proj-finding-divider" aria-hidden="true" />
+
+      <h4 class="proj-finding-title">3. Versioning is understood — upgrading is missing.</h4>
+      <p>
+        Participants grasped what the default version meant, but expected a way
+        to <em>upgrade</em> existing instances and wanted visible indicators
+        distinguishing self-uploaded connectors from managed ones.
+      </p>
+      <div class="proj-quote">
+        <p>"Obviously if I change the default it's gonna change new event streams
+          that I create, right? The only question in my mind is does that update
+          existing event streams, or am I gonna have to go to the existing event
+          streams to?"</p>
+        <cite>— Research participant</cite>
+      </div>
+      <div class="proj-quote">
+        <p>"It would be easier for it to go edit existing event streams
+          automatically — but would it potentially break anything? So I think my
+          preference is to upgrade in the Eventstream, but don't apply to
+          existing Eventstreams by default."</p>
+        <cite>— Research participant</cite>
+      </div>
+      <div class="proj-takeaway-note">
+        <span class="proj-takeaway-note__label">Decision</span>
+        <p>
+          Add an explicit upgrade flow for the default version and visual
+          indicators that mark connectors as self-uploaded.
+        </p>
+      </div>
+
+      <hr class="proj-finding-divider" aria-hidden="true" />
+
+      <h4 class="proj-finding-title">4. No one wanted to hand-edit configuration.</h4>
+      <p>
+        The
+        clearest, most consistent signal: people didn't want to edit a raw
+        config blob. They expected a familiar <strong>CRUD-style UI</strong> —
+        create, read, update, and delete the connector's settings the same way
+        they manage other Fabric resources. Defining which properties end users
+        see, and what each one means, shouldn't require editing JSON. They asked
+        to manage settings visually; add, edit, reorder, and remove them with
+        clear fields; preview the form their end users will actually fill in; and
+        keep an escape hatch to the underlying JSON for power users.
+      </p>
+      <div class="proj-quote">
+        <p>"So when I'm uploading a new version, I want to compare the view from
+          the old versions and see the 'preview and edit' form for the new
+          version — I'm not only uploading the new code, I might be adding fields
+          to the form as well. This is where I expect to do that work in one
+          go."</p>
+        <cite>— Research participant</cite>
+      </div>
+      <div class="proj-takeaway-note">
+        <span class="proj-takeaway-note__label">Decision</span>
+        <p>
+          After Private Preview, design a full CRUD experience for connector
+          configuration — turning settings management from a manual, error-prone
+          step into a first-class, guided screen.
+        </p>
+      </div>
+    </section>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Interactive prototype</span>
+      <h2>Try it end to end</h2>
+      <button
+        type="button"
+        class="feature feature--proto"
+        data-embed-modal="crud-proto"
+      >
+        <span class="feature__sheen" aria-hidden="true"></span>
+        <span class="feature__text">
+          <span class="feature__name">Upload + CRUD connector</span>
+          <span class="feature__desc">
+            Clickable prototype, from upload to manage.
+          </span>
+        </span>
+        <span class="feature__cta">Open prototype →</span>
+      </button>
+      <button
+        type="button"
+        class="feature feature--proto"
+        data-embed-modal="manage-proto"
+      >
+        <span class="feature__sheen" aria-hidden="true"></span>
+        <span class="feature__text">
+          <span class="feature__name">Manage connector with Custom stream connector item</span>
+          <span class="feature__desc">
+            Clickable prototype for managing a connector and its versions.
+          </span>
+        </span>
+        <span class="feature__cta">Open prototype →</span>
+      </button>
+    </section>
+  </main>
+  </div>
+
+  <!-- Full-screen embedded prototype modal -->
+  <div
+    class="embed-modal"
+    id="crud-proto"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Custom connector CRUD configuration prototype"
+    hidden
+  >
+    <div class="embed-modal__backdrop" data-embed-close></div>
+    <div class="embed-modal__panel">
+      <button
+        type="button"
+        class="embed-modal__close"
+        data-embed-close
+        aria-label="Close prototype"
+      >
+        ✕
+      </button>
+      <iframe
+        class="embed-modal__frame"
+        data-embed-src="https://embed.figma.com/proto/RGEkkximKTR9P4fG6cBWor/custom-stream-connector?node-id=1-76311&p=f&viewport=296%2C41%2C0.08&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A76311&embed-host=share"
+        title="Custom connector — CRUD configuration Figma prototype"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+
+  <!-- Full-screen embedded prototype modal — manage connector -->
+  <div
+    class="embed-modal"
+    id="manage-proto"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Manage connector with Custom stream connector item prototype"
+    hidden
+  >
+    <div class="embed-modal__backdrop" data-embed-close></div>
+    <div class="embed-modal__panel">
+      <button
+        type="button"
+        class="embed-modal__close"
+        data-embed-close
+        aria-label="Close prototype"
+      >
+        ✕
+      </button>
+      <iframe
+        class="embed-modal__frame"
+        data-embed-src="https://embed.figma.com/proto/RGEkkximKTR9P4fG6cBWor/custom-stream-connector?node-id=33-45274&viewport=728%2C743%2C0.09&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=33%3A45274&page-id=33%3A31229&show-proto-sidebar=1&embed-host=share"
+        title="Manage connector with Custom stream connector item Figma prototype"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

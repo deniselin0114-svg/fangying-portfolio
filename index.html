@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fangying Lin — Product Designer</title>
+  <meta
+    name="description"
+    content="Fangying Lin is a product designer crafting clear, human interfaces for complex data products."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    // Apply saved theme before paint to avoid a flash.
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (!t) {
+          t = window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+      // Hide all work (menu + tiles) until the visitor unlocks via "See my work".
+      try {
+        if (localStorage.getItem("portfolio-unlocked") !== "1") {
+          document.documentElement.classList.add("work-locked");
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="fabricLogo" viewBox="0 0 256 256">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M30.0801 168.53L26.9556 179.966C25.7912 183.624 24.1601 188.997 23.2801 193.779C22.0267 197.086 21.3423 200.673 21.3423 204.419C21.3423 219.868 33.0134 232.588 48.0178 234.25C52.2401 234.859 57.0178 234.828 62.3734 234.042L86.9778 230.646C93.1645 229.793 98.2445 225.326 99.8889 219.299L116.822 157.104L30.0801 168.53Z" fill="url(#fl_p0)"/>
+      <path d="M54.0786 171.476C28.1452 175.494 22.8208 195.063 22.8208 195.063L47.6564 103.809L177.43 86.2538L159.732 150.534C158.812 153.978 155.919 156.618 152.332 157.165L151.607 157.285L53.3497 171.6L54.0786 171.476Z" fill="url(#fl_p1)"/>
+      <path d="M54.0786 171.476C28.1452 175.494 22.8208 195.063 22.8208 195.063L47.6564 103.809L177.43 86.2538L159.732 150.534C158.812 153.978 155.919 156.618 152.332 157.165L151.607 157.285L53.3497 171.6L54.0786 171.476Z" fill="url(#fl_p2)" fill-opacity="0.8"/>
+      <path d="M68.7944 113.253L212.461 92.0311C215.879 91.5644 218.648 89.0622 219.519 85.7866L234.346 32.1289C234.55 31.4 234.657 30.6311 234.657 29.84C234.657 25.1422 230.852 21.3333 226.15 21.3333C225.786 21.3333 225.421 21.3555 225.07 21.4L87.9855 41.6578C73.0966 44.0489 61.0744 55.0311 57.1722 69.3555L37.4033 141.004C41.3722 126.511 43.8122 117.773 68.7944 113.253Z" fill="url(#fl_p3)"/>
+      <path d="M68.7944 113.253L212.461 92.0311C215.879 91.5644 218.648 89.0622 219.519 85.7867L234.346 32.1289C234.55 31.4 234.657 30.6311 234.657 29.84C234.657 25.1422 230.852 21.3333 226.15 21.3333C225.786 21.3333 225.421 21.3555 225.07 21.4L87.9855 41.6578C73.0966 44.0489 61.0744 55.0311 57.1722 69.3555L37.4033 141.004C41.3722 126.511 43.8122 117.773 68.7944 113.253Z" fill="url(#fl_p4)"/>
+      <path d="M68.7944 113.253L212.461 92.0311C215.879 91.5644 218.648 89.0622 219.519 85.7867L234.346 32.1289C234.55 31.4 234.657 30.6311 234.657 29.84C234.657 25.1422 230.852 21.3333 226.15 21.3333C225.786 21.3333 225.421 21.3555 225.07 21.4L87.9855 41.6578C73.0966 44.0489 61.0744 55.0311 57.1722 69.3555L37.4033 141.004C41.3722 126.511 43.8122 117.773 68.7944 113.253Z" fill="url(#fl_p5)" fill-opacity="0.4"/>
+      <path d="M68.7941 113.257C47.9897 117.022 42.8252 123.724 39.3852 134.226L22.8208 195.075C22.8208 195.075 28.1141 175.702 53.7319 171.559L151.612 157.302L152.336 157.182C155.923 156.635 158.816 153.99 159.736 150.55L174.296 97.6704L68.7941 113.257Z" fill="url(#fl_p6)"/>
+      <path d="M68.7941 113.257C47.9897 117.022 42.8252 123.724 39.3852 134.226L22.8208 195.075C22.8208 195.075 28.1141 175.702 53.7319 171.559L151.612 157.302L152.336 157.182C155.923 156.635 158.816 153.99 159.736 150.55L174.296 97.6704L68.7941 113.257Z" fill="url(#fl_p7)" fill-opacity="0.2"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M53.7334 171.56C32.0845 175.062 24.9734 189.4 23.2801 193.769C22.0267 197.084 21.3423 200.671 21.3423 204.418C21.3423 219.866 33.0134 232.586 48.0178 234.249C52.2401 234.858 57.0178 234.826 62.3734 234.04L86.9778 230.644C93.1645 229.791 98.2445 225.324 99.8889 219.298L115.324 162.591L53.7378 171.564L53.7334 171.56Z" fill="url(#fl_p8)"/>
+    </symbol>
+    <defs>
+      <linearGradient id="fl_p0" x1="69.0801" y1="234.673" x2="69.0801" y2="157.104" gradientUnits="userSpaceOnUse"><stop offset="0.056" stop-color="#2AAC94"/><stop offset="0.155" stop-color="#239C87"/><stop offset="0.372" stop-color="#177E71"/><stop offset="0.588" stop-color="#0E6961"/><stop offset="0.799" stop-color="#095D57"/><stop offset="1" stop-color="#085954"/></linearGradient>
+      <linearGradient id="fl_p1" x1="167.098" y1="178.388" x2="92.1941" y2="96.9205" gradientUnits="userSpaceOnUse"><stop offset="0.0417478" stop-color="#ABE88E"/><stop offset="0.548926" stop-color="#2AAA92"/><stop offset="0.906" stop-color="#117865"/></linearGradient>
+      <linearGradient id="fl_p2" x1="-16.9721" y1="174.428" x2="54.3093" y2="150.119" gradientUnits="userSpaceOnUse"><stop stop-color="#6AD6F9"/><stop offset="1" stop-color="#6AD6F9" stop-opacity="0"/></linearGradient>
+      <linearGradient id="fl_p3" x1="37.4033" y1="81.1689" x2="227.141" y2="81.1689" gradientUnits="userSpaceOnUse"><stop offset="0.043" stop-color="#25FFD4"/><stop offset="0.874" stop-color="#55DDB9"/></linearGradient>
+      <linearGradient id="fl_p4" x1="37.4033" y1="54.6488" x2="208.319" y2="134.014" gradientUnits="userSpaceOnUse"><stop stop-color="#6AD6F9"/><stop offset="0.229501" stop-color="#60E9D0"/><stop offset="0.650711" stop-color="#6DE9BB"/><stop offset="0.99354" stop-color="#ABE88E"/></linearGradient>
+      <linearGradient id="fl_p5" x1="53.2149" y1="69.5003" x2="146.152" y2="90.0555" gradientUnits="userSpaceOnUse"><stop stop-color="white" stop-opacity="0"/><stop offset="0.458511" stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient>
+      <linearGradient id="fl_p6" x1="84.0312" y1="149.117" x2="86.2272" y2="83.943" gradientUnits="userSpaceOnUse"><stop offset="0.204642" stop-color="#063D3B" stop-opacity="0"/><stop offset="0.58553" stop-color="#063D3B" stop-opacity="0.236587"/><stop offset="0.872285" stop-color="#063D3B" stop-opacity="0.75"/></linearGradient>
+      <linearGradient id="fl_p7" x1="14.9848" y1="142.636" x2="94.4055" y2="157.572" gradientUnits="userSpaceOnUse"><stop stop-color="white" stop-opacity="0"/><stop offset="0.458511" stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient>
+      <linearGradient id="fl_p8" x1="72.3556" y1="213.178" x2="56.8635" y2="137.409" gradientUnits="userSpaceOnUse"><stop offset="0.064" stop-color="#063D3B" stop-opacity="0"/><stop offset="0.17" stop-color="#063D3B" stop-opacity="0.135"/><stop offset="0.562" stop-color="#063D3B" stop-opacity="0.599"/><stop offset="0.85" stop-color="#063D3B" stop-opacity="0.9"/><stop offset="1" stop-color="#063D3B"/></linearGradient>
+    </defs>
+  </svg>
+  <div class="app" data-nav-collapsed="false">
+    <button class="theme-switch" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+      <span class="theme-switch__icons" aria-hidden="true">
+        <span class="theme-toggle__icon theme-toggle__icon--sun">☀</span>
+        <span class="theme-toggle__icon theme-toggle__icon--moon">☾</span>
+      </span>
+      <span class="theme-switch__label">Switch to dark mode</span>
+    </button>
+    <div class="floating-controls">
+      <button class="nav-reopen has-tip has-tip--right" type="button" aria-label="Open navigation" data-tip="Expand">
+        <span aria-hidden="true">☰</span>
+      </button>
+    </div>
+    <!-- ══════════════════════════════════════════════════════════
+         Sidebar
+    ═══════════════════════════════════════════════════════════ -->
+    <aside class="sidebar" aria-label="Primary">
+      <div class="profile">
+        <div class="profile__meta">
+          <span class="profile__name">Fangying Lin</span>
+        </div>
+        <div class="profile__controls">
+          <button class="square-btn nav-collapse has-tip" type="button" aria-label="Collapse navigation" data-tip="Collapse">
+            <span class="nav-collapse__icon" aria-hidden="true">«</span>
+          </button>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="nav__item is-active" href="#about" data-nav="about">
+          About me
+        </a>
+
+        <p class="nav__group js-work-group">Microsoft Fabric</p>
+        <a class="nav__item js-work-item" href="eventstream.html">Eventstream in Microsoft Fabric</a>
+        <a class="nav__item js-work-item" href="business-events.html">Business Events in Microsoft Fabric</a>
+        <a class="nav__item js-work-item" href="get-data.html">Get data</a>
+        <a class="nav__item js-work-item" href="custom-connector.html">Custom stream connector</a>
+
+        <p class="nav__group js-work-group">Cornerstone Global Partner</p>
+        <a class="nav__item js-work-item" href="top20talent.html">Top20Talent Portal</a>
+
+        <hr class="nav__divider" aria-hidden="true" />
+        <p class="nav__group">Connect with me</p>
+        <a class="nav__item" href="#">Resume</a>
+        <a class="nav__item" href="mailto:deniselin0114@gmail.com">Email me</a>
+      </nav>
+    </aside>
+
+    <!-- ══════════════════════════════════════════════════════════
+         Main content panel
+    ═══════════════════════════════════════════════════════════ -->
+    <main class="panel" id="about">
+      <section class="intro reveal" aria-label="Introduction">
+        <div class="intro__aura" aria-hidden="true"></div>
+        <div class="intro__media">
+          <img
+            class="intro__photo"
+            src="assets/fangying.jpg"
+            alt="Portrait of Fangying Lin"
+            loading="eager"
+            onerror="this.style.display='none'; this.parentElement.classList.add('is-missing');"
+          />
+        </div>
+        <div class="intro__body">
+          <p class="intro__eyebrow">Hi there! ✦</p>
+          <h1 class="intro__title">I am Fangying</h1>
+          <p class="intro__lede">
+            I'm a <strong>Product Designer</strong> at
+            <strong>Microsoft</strong> focused on <strong>data</strong>,
+            <strong>AI</strong>, and <strong>real-time analytics</strong>
+            experiences. I design products that help organizations connect,
+            process, and understand data at scale—from onboarding and data
+            ingestion to streaming insights and AI-powered workflows.
+            <br /><br />
+            My work spans Microsoft Fabric, where I've helped build new
+            experiences from 0→1, simplify complex technical concepts, and
+            partner closely with engineering, research, and product teams to
+            deliver customer impact.
+          </p>
+          <a class="intro__scroll" href="#work">
+            <span>See my work</span>
+            <span class="intro__arrow" aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </section>
+
+      <hr class="section-divider reveal" aria-hidden="true" />
+
+      <header class="panel__head reveal" id="work"></header>
+
+      <div class="work-locked-note" aria-hidden="true">
+        <span class="work-locked-note__icon">🔒</span>
+        <p>My work is password protected. Click <strong>See my work</strong> above to unlock the case studies.</p>
+      </div>
+
+      <section class="cards" aria-label="Selected work">
+        <!-- 1 · Eventstream — LIVE interactive prototype -->
+        <article class="card reveal" id="eventstream">
+          <a class="card__link" href="eventstream.html">
+            <div class="card__top">
+              <span class="card__brand">
+                <span class="card__logo card__logo--fabric" aria-hidden="true"><svg class="card__logo-svg"><use href="#fabricLogo"/></svg></span>
+                Microsoft Fabric
+              </span>
+            </div>
+            <div class="card__media card__media--eventstream card__media--shot" aria-hidden="true">
+              <img class="es-shot" src="assets/eventstream-preview.png" alt="" loading="lazy" />
+            </div>
+            <div class="card__foot">
+              <span class="card__name">Eventstream in Microsoft Fabric</span>
+            </div>
+            <p class="card__desc">
+              Build real-time data pipelines on a canvas — connect sources,
+              transforms, and destinations, schema-aware end to end.
+            </p>
+          </a>
+        </article>
+
+        <!-- 2 · Business Events — AI-assisted authoring -->
+        <article class="card reveal" id="business-events">
+          <a class="card__link" href="business-events.html">
+            <div class="card__top">
+              <span class="card__brand">
+                <span class="card__logo card__logo--fabric" aria-hidden="true"><svg class="card__logo-svg"><use href="#fabricLogo"/></svg></span>
+                Microsoft Fabric
+              </span>
+            </div>
+            <div class="card__media card__media--getdata card__media--shot" aria-hidden="true">
+              <img class="es-shot" src="assets/business-events-preview.png" alt="" loading="lazy" />
+            </div>
+            <div class="card__foot">
+              <span class="card__name">Business Events in Microsoft Fabric</span>
+            </div>
+            <p class="card__desc">
+              Turn raw streams into meaningful, business-critical signals —
+              define, explore, and act on events with AI-assisted authoring.
+            </p>
+          </a>
+        </article>
+
+        <!-- 3 · Get data -->
+        <article class="card reveal" id="get-data">
+          <a class="card__link" href="get-data.html">
+            <div class="card__top">
+              <span class="card__brand">
+                <span class="card__logo card__logo--fabric" aria-hidden="true"><svg class="card__logo-svg"><use href="#fabricLogo"/></svg></span>
+                Microsoft Fabric
+              </span>
+            </div>
+            <div class="card__media card__media--getdata" aria-hidden="true">
+              <span class="media-glyph">⤓</span>
+            </div>
+            <div class="card__foot">
+              <span class="card__name">Get data</span>
+            </div>
+            <p class="card__desc">
+              A guided wizard for connecting sources and landing data into
+              Fabric — fast, clear, and confident.
+            </p>
+          </a>
+        </article>
+
+        <!-- 3 · Custom stream connector -->
+        <article class="card reveal" id="custom-connector">
+          <a class="card__link" href="custom-connector.html">
+            <div class="card__top">
+              <span class="card__brand">
+                <span class="card__logo card__logo--fabric" aria-hidden="true"><svg class="card__logo-svg"><use href="#fabricLogo"/></svg></span>
+                Microsoft Fabric
+              </span>
+            </div>
+            <div class="card__media card__media--connector card__media--shot" aria-hidden="true">
+              <img class="es-shot" src="assets/custom-connector-preview.png" alt="" loading="lazy" />
+            </div>
+
+
+            <div class="card__foot">
+              <span class="card__name">Custom stream connector</span>
+            </div>
+            <p class="card__desc">
+              Let developers bring their own streaming sources into Fabric
+              with a configurable connector framework.
+            </p>
+          </a>
+        </article>
+
+        <!-- 6 · Top20Talent -->
+        <article class="card reveal" id="top20talent">
+          <a class="card__link" href="top20talent.html">
+            <div class="card__top">
+              <span class="card__brand">
+                <span class="card__logo card__logo--top20" aria-hidden="true"><svg class="card__logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="3,4 14,2 17,9.5 6,11.5" fill="#9e1c20"/><polygon points="7,12.5 18,10.5 21,18 10,20" fill="#d92b21"/></svg></span>
+                Cornerstone Global Partner
+              </span>
+            </div>
+            <div class="card__media card__media--top20 t20-stage" aria-hidden="true">
+              <div class="t20-window">
+                <div class="t20-window__bar">
+                  <span class="t20-dot"></span>
+                  <span class="t20-dot"></span>
+                  <span class="t20-dot"></span>
+                  <span class="t20-url">top20talent.com</span>
+                </div>
+                <div class="t20-screen">
+                  <div class="t20-reel">
+                    <img class="t20-frame" loading="lazy" alt=""
+                      src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cb849a96ceb590cc76ad1_5.png" />
+                    <img class="t20-frame" loading="lazy" alt=""
+                      src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cb80ebb2a7f467cdc1613_Screen%20Shot%202021-11-23%20at%205.39.37%20PM.png" />
+                    <img class="t20-frame" loading="lazy" alt=""
+                      src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cb849a5b8a0e606b33b38_2.png" />
+                    <img class="t20-frame" loading="lazy" alt=""
+                      src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cb84a562c87caf4e1df3a_6.png" />
+                    <img class="t20-frame" loading="lazy" alt=""
+                      src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cbcc1bb2a7f6fdfdc321d_Screen%20Shot%202021-11-23%20at%206.02.40%20PM.png" />
+                    <img class="t20-frame" loading="lazy" alt=""
+                      src="https://uploads-ssl.webflow.com/60fd57bc90489c5a4f77275e/619cb849a96ceb590cc76ad1_5.png" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card__foot">
+              <span class="card__name">Top20Talent Portal</span>
+            </div>
+            <p class="card__desc">
+              A B2C job-search platform — redesigning the apply &amp; register
+              flow to lift conversion and reduce drop-off.
+            </p>
+          </a>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

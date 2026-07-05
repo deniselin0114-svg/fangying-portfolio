@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom connector — CRUD prototype</title>
+  <meta name="description" content="Interactive prototype of the Custom stream connector CRUD configuration — manage user-facing settings with an expandable editor." />
+  <style>
+    :root {
+      --fab-green: #117865;
+      --fab-green-dark: #0e6657;
+      --teal: #117865;
+      --ink: #242424;
+      --ink-mid: #424242;
+      --ink-soft: #707070;
+      --line: #e1e1e1;
+      --line-soft: #ededed;
+      --bg: #ffffff;
+      --panel: #ffffff;
+      --rail: #faf9f8;
+      --hover: #f5f5f5;
+      --field-border: #8a8886;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --font: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+      --mono: "Cascadia Code", "Consolas", "SF Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: var(--font); color: var(--ink); background: #1b1b1b;
+      -webkit-font-smoothing: antialiased; font-size: 14px;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 10px; padding: 12px; height: 100dvh; overflow: hidden;
+    }
+    button, input, select { font-family: inherit; }
+    button { cursor: pointer; }
+
+    .topbar { width: 100%; display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
+    .topbar a {
+      display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none;
+      font-weight: 600; font-size: 13px; color: #cfcfcf; padding: 6px 12px;
+      border: 1px solid #3a3a3a; border-radius: 8px; transition: background 0.18s var(--ease), color 0.18s var(--ease);
+    }
+    .topbar a:hover { background: #2a2a2a; color: #fff; }
+    .topbar__title { font-size: 13px; color: #9a9a9a; }
+    .topbar__title strong { color: #fff; font-weight: 600; }
+    .topbar__reset {
+      margin-left: auto; background: #2a2a2a; border: 1px solid #3a3a3a; color: #cfcfcf;
+      border-radius: 8px; padding: 6px 12px; font-size: 13px; font-weight: 600;
+    }
+    .topbar__reset:hover { background: #333; color: #fff; }
+
+    .stagewrap { flex: 1 1 auto; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; }
+    .device {
+      height: 100%; width: auto; max-width: 100%; aspect-ratio: 16 / 9;
+      border-radius: 12px; overflow: hidden; position: relative;
+      box-shadow: 0 24px 70px -20px rgba(0,0,0,0.65); background: var(--bg);
+      display: flex; flex-direction: column;
+    }
+
+    /* Suite header */
+    .suite {
+      height: 48px; flex: 0 0 48px; background: #faf9f8; border-bottom: 1px solid #edebe9;
+      display: flex; align-items: center; padding: 0 14px; gap: 14px; color: var(--ink-mid);
+    }
+    .suite__waffle { font-size: 15px; color: var(--ink-soft); }
+    .suite__brand { font-weight: 600; font-size: 15px; color: var(--teal); }
+    .suite__search {
+      flex: 1; max-width: 520px; margin: 0 auto; height: 30px; background: #fff; border: 1px solid #e1dfdd;
+      border-radius: 4px; display: flex; align-items: center; padding: 0 10px; gap: 8px; color: var(--ink-soft); font-size: 12.5px;
+    }
+    .suite__icons { display: flex; gap: 14px; align-items: center; font-size: 13px; color: var(--ink-soft); }
+    .suite__avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #e8a0b8, #c97da0);
+      display: grid; place-items: center; font-size: 10px; font-weight: 700; color: #fff; }
+
+    .body { flex: 1; display: flex; min-height: 0; }
+    .railicons {
+      width: 56px; flex: 0 0 56px; background: var(--rail); border-right: 1px solid #edebe9;
+      display: flex; flex-direction: column; align-items: center; padding: 6px 0; gap: 0;
+    }
+    .railicon { width: 56px; height: 54px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 3px; color: var(--ink-mid); font-size: 9px; text-align: center; line-height: 1.1; }
+    .railicon .ic { font-size: 17px; }
+    .railicon.is-active { color: var(--teal); }
+    .railicon.is-active .ic { color: var(--teal); }
+    .railbottom { margin-top: auto; }
+
+    .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+    .pagehead {
+      height: 50px; flex: 0 0 50px; display: flex; align-items: center; gap: 12px;
+      padding: 0 20px; border-bottom: 1px solid #edebe9; font-size: 15px; color: var(--ink);
+    }
+    .pagehead .back { font-size: 17px; color: var(--ink-mid); }
+
+    .cols { flex: 1; display: flex; min-height: 0; }
+
+    /* Left: system parameters */
+    .sys { width: 252px; flex: 0 0 252px; border-right: 1px solid #edebe9; padding: 18px 18px; overflow-y: auto;
+      transition: flex-basis 0.26s var(--ease), width 0.26s var(--ease), padding 0.26s var(--ease); }
+    .sys h3 { margin: 0 0 18px; font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; }
+    .sys h3 .left { display: flex; align-items: center; gap: 6px; }
+    .sys h3 .info { color: var(--ink-soft); font-size: 12px; }
+    .sys h3 .collapse { color: var(--ink-soft); font-size: 14px; background: transparent; border: 0; padding: 2px; }
+    .fld { margin-bottom: 18px; }
+    .fld > label { display: block; font-size: 13px; color: var(--ink); margin-bottom: 6px; font-weight: 600; }
+    .req { color: #c4314b; }
+    .inp, .sel {
+      width: 100%; height: 32px; border: 1px solid var(--field-border); border-radius: 2px; padding: 0 9px;
+      font-size: 13px; color: var(--ink); background: var(--panel);
+    }
+    .sel { -webkit-appearance: none; appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--ink-soft) 50%), linear-gradient(135deg, var(--ink-soft) 50%, transparent 50%);
+      background-position: calc(100% - 14px) 14px, calc(100% - 9px) 14px; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 26px; }
+    .inp:focus, .sel:focus { outline: 2px solid var(--teal); outline-offset: -1px; border-color: var(--teal); }
+    .inp-copy { position: relative; }
+    .inp-copy .copy { position: absolute; right: 6px; top: 7px; color: var(--ink-soft); font-size: 13px; background: transparent; border: 0; }
+    .radio-row { display: flex; flex-direction: column; gap: 10px; }
+    .radio { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink); }
+    .radio .dot { width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--field-border); flex: 0 0 auto; }
+    .radio.is-on .dot { border-color: var(--teal); background: radial-gradient(circle, var(--teal) 40%, #fff 44%); }
+
+    /* collapsed system panel */
+    .syscollapsed { width: 44px; flex: 0 0 44px; border-right: 1px solid #edebe9; display: none; padding-top: 16px; justify-content: center; }
+    .syscollapsed button { background: transparent; border: 0; color: var(--ink-mid); font-size: 16px; }
+    .device.is-expanded .sys { display: none; }
+    .device.is-expanded .syscollapsed { display: flex; }
+
+    /* Center: user-facing settings */
+    .center { flex: 1; min-width: 0; display: flex; flex-direction: column; border-right: 1px solid #edebe9; }
+    .center__head { display: flex; align-items: center; gap: 10px; padding: 16px 22px 12px; }
+    .center__head h2 { margin: 0; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    .center__head .info { color: var(--ink-soft); font-size: 12px; font-weight: 400; }
+    .center__head .spacer { margin-left: auto; }
+    .addbtn {
+      display: inline-flex; align-items: center; gap: 7px; border: 1px solid #d1d1d1; background: var(--panel);
+      border-radius: 4px; padding: 6px 12px; font-size: 13px; color: var(--ink); font-weight: 600;
+    }
+    .addbtn:hover { background: var(--hover); }
+    .viewtoggle { display: inline-flex; gap: 2px; }
+    .viewtoggle button { border: 0; background: transparent; padding: 6px 8px; font-size: 15px; color: var(--ink-soft); border-radius: 4px; }
+    .viewtoggle button.is-active { background: #e8f3f0; color: var(--teal); }
+
+    .settings { flex: 1; overflow-y: auto; padding: 2px 22px 18px; }
+    .setting {
+      border: 1px solid #e1e1e1; border-radius: 4px; margin-bottom: 8px; background: var(--panel);
+      transition: box-shadow 0.18s var(--ease), border-color 0.18s var(--ease);
+    }
+    .setting:hover { box-shadow: 0 4px 14px -8px rgba(0,0,0,0.25); }
+    .setting.is-open { border-color: var(--teal); box-shadow: 0 8px 22px -12px rgba(0,0,0,0.28); }
+    .setting__row { display: flex; align-items: center; gap: 12px; padding: 13px 16px; cursor: pointer; }
+    .setting__drag { color: #c4c4c4; font-size: 13px; cursor: grab; letter-spacing: -2px; }
+    .setting__main { flex: 1; min-width: 0; }
+    .setting__name { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+    .setting__key { font-size: 11.5px; color: var(--ink-soft); font-family: var(--mono); margin-top: 2px; }
+    .setting__trash { color: var(--ink-mid); font-size: 14px; background: transparent; border: 0; padding: 4px; border-radius: 4px; }
+    .setting__trash:hover { background: #fbeaea; color: #c4314b; }
+    /* expanded header controls */
+    .setting__toggle { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink); }
+    .switch { width: 36px; height: 20px; border-radius: 999px; background: #c8c8c8; position: relative; transition: background 0.18s var(--ease); flex: 0 0 auto; }
+    .switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: left 0.18s var(--ease); }
+    .switch.is-on { background: var(--teal); }
+    .switch.is-on::after { left: 18px; }
+    .setting__collapse { color: var(--ink-mid); font-size: 14px; background: transparent; border: 0; padding: 4px; }
+
+    .setting__body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.24s var(--ease); }
+    .setting.is-open .setting__body { grid-template-rows: 1fr; }
+    .setting__inner { overflow: hidden; min-height: 0; }
+    .setting__form { padding: 2px 16px 18px; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+    .grid2 .full { grid-column: 1 / -1; }
+    .minlabel { font-size: 12px; color: var(--ink); font-weight: 600; margin-bottom: 5px; display: block; }
+    .rangepair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .check { display: flex; align-items: center; gap: 8px; margin-top: 4px; font-size: 13px; color: var(--ink); }
+    .check .box { width: 16px; height: 16px; border-radius: 2px; border: 1px solid var(--field-border); display: grid; place-items: center; font-size: 11px; color: #fff; flex: 0 0 auto; }
+    .check.is-on .box { background: var(--teal); border-color: var(--teal); }
+
+    /* JSON view */
+    .json {
+      flex: 1; overflow: auto; margin: 2px 22px 18px; border: 1px solid #e1e1e1; border-radius: 4px;
+      background: #fff; padding: 14px 18px; font-family: var(--mono); font-size: 12px; line-height: 1.75; white-space: pre;
+    }
+    .json .k { color: #0451a5; } .json .s { color: #a31515; } .json .t { color: #098658; } .json .b { color: #0000ff; }
+
+    /* Right: preview */
+    .preview { width: 320px; flex: 0 0 320px; padding: 16px 22px; overflow-y: auto; }
+    .preview h3 { margin: 0 0 14px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 7px; color: var(--ink); }
+    .pgroup { font-size: 13px; color: var(--ink); margin: 18px 0 10px; }
+    .pgroup:first-of-type { margin-top: 6px; }
+    .pfld { margin-bottom: 14px; }
+    .pfld label { display: block; font-size: 13px; color: var(--ink); margin-bottom: 6px; font-weight: 600; }
+    .pfld label .req { color: #c4314b; }
+    .pfld label .info { color: var(--ink-soft); font-size: 11px; margin-left: 3px; }
+    .pfld .pinp { width: 100%; height: 32px; border: 1px solid var(--field-border); border-radius: 2px; padding: 0 9px; font-size: 13px; color: var(--ink-soft); display: flex; align-items: center; }
+
+    /* Footer */
+    .foot { height: 56px; flex: 0 0 56px; display: flex; align-items: center; gap: 10px; padding: 0 20px; border-top: 1px solid #edebe9; background: var(--panel); }
+    .btn-green { background: var(--fab-green); color: #fff; border: 0; border-radius: 4px; padding: 7px 20px; font-size: 14px; font-weight: 600; }
+    .btn-green:hover { background: var(--fab-green-dark); }
+    .btn-green:active { transform: scale(0.98); }
+    .btn-ghost { border: 1px solid #d1d1d1; background: var(--panel); border-radius: 4px; padding: 7px 20px; font-size: 14px; color: var(--ink); font-weight: 600; }
+    .btn-ghost:hover { background: var(--hover); }
+
+    /* Add-settings menu */
+    .menu {
+      position: absolute; z-index: 20; background: var(--panel); border: 1px solid var(--line);
+      border-radius: 4px; box-shadow: 0 12px 32px -10px rgba(0,0,0,0.35); padding: 5px; min-width: 230px; display: none;
+    }
+    .menu.is-open { display: block; }
+    .menu button { display: block; width: 100%; text-align: left; border: 0; background: transparent; padding: 8px 10px; border-radius: 4px; font-size: 13px; color: var(--ink); }
+    .menu button:hover { background: var(--hover); }
+    .menu button .mk { color: var(--ink-soft); font-family: var(--mono); font-size: 11px; }
+
+    /* Toast */
+    .toast {
+      position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: #0e6657; color: #fff; padding: 10px 18px; border-radius: 6px; font-size: 13px; font-weight: 600;
+      box-shadow: 0 12px 30px -10px rgba(0,0,0,0.5); opacity: 0; pointer-events: none;
+      transition: opacity 0.25s var(--ease), transform 0.25s var(--ease); z-index: 40;
+    }
+    .toast.is-show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .hintbar { width: 100%; display: flex; align-items: center; gap: 10px; flex: 0 0 auto; font-size: 12.5px; color: #9a9a9a; }
+    .hintbar .dot { width: 7px; height: 7px; border-radius: 50%; background: #117865; flex: 0 0 auto; }
+    .hintbar strong { color: #cfcfcf; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="custom-connector.html">← Back to case study</a>
+    <span class="topbar__title"><strong>Custom connector — CRUD</strong> configuration prototype</span>
+    <button class="topbar__reset" id="resetBtn" type="button">↺ Restart</button>
+  </div>
+
+  <div class="stagewrap">
+    <div class="device" id="device">
+      <div class="suite">
+        <span class="suite__waffle">▦</span>
+        <span class="suite__brand">Fabric</span>
+        <div class="suite__search"><span>⌕</span> Search</div>
+        <div class="suite__icons"><span>🔔</span><span>⚙</span><span>⤓</span><span>?</span></div>
+        <div class="suite__avatar">FL</div>
+      </div>
+
+      <div class="body">
+        <div class="railicons">
+          <div class="railicon"><span class="ic">🏠</span>Home</div>
+          <div class="railicon"><span class="ic">🗂️</span>Workspaces</div>
+          <div class="railicon"><span class="ic">💧</span>OneLake</div>
+          <div class="railicon is-active"><span class="ic">⚡</span>Real-Time</div>
+          <div class="railicon"><span class="ic">📊</span>Monitor</div>
+          <div class="railicon"><span class="ic">⬡</span>Workloads</div>
+          <div class="railicon railbottom"><span class="ic">🏢</span>Contoso</div>
+        </div>
+
+        <div class="main">
+          <div class="pagehead"><span class="back">←</span> Real-time hub</div>
+
+          <div class="cols">
+            <!-- System parameters (full) -->
+            <aside class="sys">
+              <h3><span class="left">System parameters <span class="info">ⓘ</span></span><button class="collapse" id="sysCollapse" title="Collapse">⇤</button></h3>
+              <div class="fld">
+                <label>Connector class</label>
+                <div class="inp-copy">
+                  <input class="inp" value="com.sap.kafka.connect.s..." readonly />
+                  <button class="copy" title="Copy">⧉</button>
+                </div>
+              </div>
+              <div class="fld">
+                <label>Data converter component <span class="req">*</span></label>
+                <select class="sel"><option>Passthrough</option><option>JSON</option></select>
+              </div>
+              <div class="fld">
+                <label>Support data preview <span class="req">*</span></label>
+                <div class="radio-row">
+                  <label class="radio"><span class="dot"></span> Yes</label>
+                  <label class="radio is-on"><span class="dot"></span> No</label>
+                </div>
+              </div>
+            </aside>
+            <!-- System parameters (collapsed strip) -->
+            <div class="syscollapsed"><button id="sysExpand" title="Expand">⇥</button></div>
+
+            <!-- User-facing settings -->
+            <section class="center">
+              <div class="center__head">
+                <h2>User-facing settings <span class="info">ⓘ</span></h2>
+                <span class="spacer"></span>
+                <div style="position:relative;">
+                  <button class="addbtn" id="addBtn">+ Add settings ⌄</button>
+                  <div class="menu" id="addMenu">
+                    <button data-add="Topic|topic.name"><span>Topic</span> &nbsp;<span class="mk">topic.name</span></button>
+                    <button data-add="Schema registry URL|schema.registry.url"><span>Schema registry URL</span> &nbsp;<span class="mk">schema.registry.url</span></button>
+                    <button data-add="Max poll records|max.poll.records"><span>Max poll records</span> &nbsp;<span class="mk">max.poll.records</span></button>
+                    <button data-add="Tombstone handling|tombstone.handling.mode"><span>Tombstone handling</span> &nbsp;<span class="mk">tombstone.handling.mode</span></button>
+                  </div>
+                </div>
+                <div class="viewtoggle">
+                  <button id="viewList" class="is-active" title="List view">▦</button>
+                  <button id="viewCode" title="Code view">&lt;/&gt;</button>
+                </div>
+              </div>
+              <div class="settings" id="settings"></div>
+              <pre class="json" id="json" style="display:none;"></pre>
+            </section>
+
+            <!-- Preview -->
+            <aside class="preview">
+              <h3>⊟ Preview</h3>
+              <div class="pgroup">Poll</div>
+              <div class="pfld"><label>Poll interval (ms) <span class="req">*</span><span class="info">ⓘ</span></label><div class="pinp">Enter</div></div>
+              <div class="pfld"><label>Max batch rows <span class="req">*</span><span class="info">ⓘ</span></label><div class="pinp">Enter</div></div>
+              <div class="pgroup">General</div>
+              <div class="pfld"><label>Table <span class="req">*</span></label><div class="pinp">Enter</div></div>
+              <div class="pfld"><label>Connection mode <span class="req">*</span></label><div class="pinp">Enter</div></div>
+              <div class="pfld"><label>Timeout duration (ms) <span class="req">*</span></label><div class="pinp">Enter</div></div>
+              <div class="pfld"><label>Fetch size <span class="req">*</span></label><div class="pinp">Enter</div></div>
+              <div class="pfld"><label>Auto commit <span class="req">*</span></label><div class="pinp">Enter</div></div>
+            </aside>
+          </div>
+
+          <div class="foot">
+            <button class="btn-green" id="saveBtn">Save</button>
+            <button class="btn-ghost">Close</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="toast" id="toast">✓ Connector settings saved</div>
+    </div>
+  </div>
+
+  <div class="hintbar">
+    <span class="dot"></span>
+    <span id="hint"><strong>Tip</strong> — click any setting to expand and edit it. Try <strong>+ Add settings</strong> and the <strong>&lt;/&gt;</strong> code view.</span>
+  </div>
+
+  <script>
+  (function () {
+    "use strict";
+    function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+
+    var data = [
+      { name:"Poll interval (ms)", key:"poll.interval.ms", type:"Int", required:true, def:"5000", min:"", max:"", tip:true, doc:"Frequency in milliseconds to poll for new data.", group:"Poll", order:1 },
+      { name:"Max batch rows", key:"max.batch.rows", type:"Int", required:false, def:"100", min:"", max:"", tip:true, doc:"Maximum number of rows to include in a single batch.", group:"Poll", order:2 },
+      { name:"Table", key:"table.name", type:"String", required:true, def:"", min:"", max:"", tip:false, doc:"The table to read data from.", group:"General", order:1 },
+      { name:"Connection mode", key:"connection.mode", type:"String", required:true, def:"bulk", min:"", max:"", tip:false, doc:"How the connector reads from the source.", group:"General", order:2 },
+      { name:"Timeout duration (ms)", key:"timeout.ms", type:"Long", required:true, def:"30000", min:"", max:"", tip:false, doc:"Connection timeout in milliseconds.", group:"General", order:3 },
+      { name:"Fetch size", key:"fetch.size", type:"Int", required:true, def:"500", min:"", max:"", tip:false, doc:"Number of records fetched per request.", group:"General", order:4 },
+      { name:"Auto commit", key:"auto.commit", type:"Boolean", required:true, def:"true", min:"", max:"", tip:false, doc:"Whether offsets are committed automatically.", group:"General", order:5 },
+      { name:"Isolation level", key:"isolation.level", type:"String", required:false, def:"read_committed", min:"", max:"", tip:false, doc:"Transaction isolation level for reads.", group:"General", order:6 },
+      { name:"Retry attempts", key:"retry.attempts", type:"Int", required:false, def:"3", min:"", max:"", tip:false, doc:"Number of times to retry on failure.", group:"General", order:7 },
+      { name:"Logging level", key:"logging.level", type:"String", required:false, def:"INFO", min:"", max:"", tip:false, doc:"Verbosity of connector logs.", group:"General", order:8 },
+      { name:"Batch timeout (ms)", key:"batch.timeout.ms", type:"Long", required:false, def:"1000", min:"", max:"", tip:false, doc:"Max wait time before flushing a batch.", group:"Poll", order:3 }
+    ];
+    var TYPES = ["Int","Long","String","Boolean","Password"];
+    var GROUPS = ["Poll","General"];
+
+    var device = document.getElementById("device");
+    var settingsEl = document.getElementById("settings");
+    var jsonEl = document.getElementById("json");
+    var openIndex = -1;
+
+    function render() {
+      device.classList.toggle("is-expanded", openIndex !== -1);
+      settingsEl.innerHTML = data.map(function (s, i) {
+        var open = i === openIndex;
+        var head = open
+          ? '<div class="setting__row">' +
+              '<span class="setting__drag">⠿</span>' +
+              '<div class="setting__main"><div class="setting__name">' + esc(s.name) + '</div>' +
+              '<div class="setting__key">' + esc(s.key) + '</div></div>' +
+              '<span class="setting__toggle"><span class="switch ' + (s.required ? "is-on" : "") + '" data-toggle="' + i + '"></span>Required</span>' +
+              '<button class="setting__collapse" data-collapse="' + i + '" title="Collapse">⤧</button>' +
+              '<button class="setting__trash" data-del="' + i + '" title="Delete">🗑</button>' +
+            '</div>'
+          : '<div class="setting__row">' +
+              '<span class="setting__drag">⠿</span>' +
+              '<div class="setting__main"><div class="setting__name">' + esc(s.name) + '</div>' +
+              '<div class="setting__key">' + esc(s.key) + '</div></div>' +
+              '<button class="setting__trash" data-del="' + i + '" title="Delete">🗑</button>' +
+            '</div>';
+        var form = !open ? "" :
+          '<div class="setting__form"><div class="grid2">' +
+            cell("Group", groupSel(s.group)) +
+            cell("Type", typeSel(s.type)) +
+            cell("Display name", '<input class="inp" data-f="name" value="' + esc(s.name) + '">') +
+            cell("Key name", '<input class="inp" data-f="key" value="' + esc(s.key) + '">') +
+            cell("Default value", '<input class="inp" data-f="def" value="' + esc(s.def) + '" placeholder="(none)">') +
+            cell("Value range", '<div class="rangepair"><input class="inp" data-f="min" value="' + esc(s.min) + '" placeholder="Min"><input class="inp" data-f="max" value="' + esc(s.max) + '" placeholder="Max"></div>') +
+            '<div class="full"><label class="check ' + (s.tip ? "is-on" : "") + '" data-tip="' + i + '"><span class="box">' + (s.tip ? "✓" : "") + '</span>Include a tooltip</label>' +
+              (s.tip ? '<input class="inp" data-f="doc" style="margin-top:8px;" value="' + esc(s.doc) + '">' : "") + '</div>' +
+          '</div></div>';
+        return '<div class="setting' + (open ? " is-open" : "") + '" data-i="' + i + '">' + head +
+          '<div class="setting__body"><div class="setting__inner">' + form + '</div></div></div>';
+      }).join("");
+      wire();
+      renderJSON();
+    }
+
+    function cell(label, control) { return '<div><label class="minlabel">' + label + '</label>' + control + '</div>'; }
+    function groupSel(v) { return '<select class="sel" data-f="group">' + GROUPS.map(function (g) { return '<option' + (g === v ? " selected" : "") + '>' + g + '</option>'; }).join("") + '</select>'; }
+    function typeSel(v) { return '<select class="sel" data-f="type">' + TYPES.map(function (t) { return '<option' + (t === v ? " selected" : "") + '>' + t + '</option>'; }).join("") + '</select>'; }
+
+    function wire() {
+      // expand on row click (collapsed rows only)
+      settingsEl.querySelectorAll(".setting:not(.is-open) .setting__row").forEach(function (row) {
+        row.addEventListener("click", function (e) {
+          if (e.target.closest(".setting__trash")) return;
+          openIndex = +row.closest(".setting").getAttribute("data-i"); render();
+        });
+      });
+      // collapse
+      settingsEl.querySelectorAll("[data-collapse]").forEach(function (b) {
+        b.addEventListener("click", function (e) { e.stopPropagation(); openIndex = -1; render(); });
+      });
+      // delete
+      settingsEl.querySelectorAll("[data-del]").forEach(function (b) {
+        b.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var i = +b.getAttribute("data-del");
+          data.splice(i, 1);
+          if (openIndex === i) openIndex = -1; else if (openIndex > i) openIndex--;
+          render();
+        });
+      });
+      // required toggle
+      settingsEl.querySelectorAll("[data-toggle]").forEach(function (sw) {
+        sw.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var i = +sw.getAttribute("data-toggle");
+          data[i].required = !data[i].required;
+          sw.classList.toggle("is-on", data[i].required);
+          renderJSON();
+        });
+      });
+      // tooltip checkbox
+      settingsEl.querySelectorAll("[data-tip]").forEach(function (c) {
+        c.addEventListener("click", function (e) {
+          e.preventDefault();
+          var i = +c.getAttribute("data-tip");
+          data[i].tip = !data[i].tip; render();
+        });
+      });
+      // text/select edits
+      settingsEl.querySelectorAll("[data-f]").forEach(function (inp) {
+        var ev = inp.tagName === "SELECT" ? "change" : "input";
+        inp.addEventListener(ev, function () {
+          var card = inp.closest(".setting"); var i = +card.getAttribute("data-i");
+          data[i][inp.getAttribute("data-f")] = inp.value;
+          if (inp.getAttribute("data-f") === "name") card.querySelector(".setting__name").textContent = inp.value;
+          if (inp.getAttribute("data-f") === "key") card.querySelector(".setting__key").textContent = inp.value;
+          renderJSON();
+        });
+      });
+    }
+
+    function renderJSON() {
+      jsonEl.innerHTML = "[\n" + data.map(function (s) {
+        return '  {\n' +
+          '    <span class="k">"name"</span>: <span class="s">"' + esc(s.key) + '"</span>,\n' +
+          '    <span class="k">"type"</span>: <span class="t">"' + s.type.toUpperCase() + '"</span>,\n' +
+          '    <span class="k">"required"</span>: <span class="b">' + s.required + '</span>,\n' +
+          '    <span class="k">"defaultValue"</span>: ' + (s.def ? '<span class="s">"' + esc(s.def) + '"</span>' : '<span class="b">null</span>') + ',\n' +
+          '    <span class="k">"documentation"</span>: <span class="s">"' + esc(s.doc) + '"</span>,\n' +
+          '    <span class="k">"group"</span>: <span class="s">"' + esc(s.group) + '"</span>,\n' +
+          '    <span class="k">"orderInGroup"</span>: <span class="t">' + s.order + '</span>,\n' +
+          '    <span class="k">"displayName"</span>: <span class="s">"' + esc(s.name) + '"</span>,\n' +
+          '    <span class="k">"dependents"</span>: []\n  }';
+      }).join(",\n") + "\n]";
+    }
+
+    // View toggle
+    var viewList = document.getElementById("viewList");
+    var viewCode = document.getElementById("viewCode");
+    viewList.addEventListener("click", function () {
+      viewList.classList.add("is-active"); viewCode.classList.remove("is-active");
+      settingsEl.style.display = ""; jsonEl.style.display = "none";
+    });
+    viewCode.addEventListener("click", function () {
+      viewCode.classList.add("is-active"); viewList.classList.remove("is-active");
+      settingsEl.style.display = "none"; jsonEl.style.display = "block"; renderJSON();
+    });
+
+    // System panel collapse
+    document.getElementById("sysCollapse").addEventListener("click", function () { device.classList.add("is-sys-collapsed"); device.querySelector(".sys").style.display = "none"; device.querySelector(".syscollapsed").style.display = "flex"; });
+    document.getElementById("sysExpand").addEventListener("click", function () { device.querySelector(".sys").style.display = ""; device.querySelector(".syscollapsed").style.display = ""; });
+
+    // Add settings menu
+    var addBtn = document.getElementById("addBtn");
+    var addMenu = document.getElementById("addMenu");
+    addBtn.addEventListener("click", function (e) { e.stopPropagation(); addMenu.classList.toggle("is-open"); });
+    document.addEventListener("click", function () { addMenu.classList.remove("is-open"); });
+    addMenu.querySelectorAll("[data-add]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var parts = b.getAttribute("data-add").split("|");
+        data.push({ name: parts[0], key: parts[1], type:"String", required:false, def:"", min:"", max:"", tip:false, doc:"", group:"General", order: data.length+1 });
+        addMenu.classList.remove("is-open");
+        openIndex = data.length - 1; render();
+        settingsEl.scrollTop = settingsEl.scrollHeight;
+      });
+    });
+
+    // Save
+    var toast = document.getElementById("toast");
+    document.getElementById("saveBtn").addEventListener("click", function () {
+      toast.classList.add("is-show"); setTimeout(function () { toast.classList.remove("is-show"); }, 2400);
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", function () {
+      openIndex = -1; viewList.click();
+      device.querySelector(".sys").style.display = ""; device.querySelector(".syscollapsed").style.display = "";
+      render();
+    });
+
+    render();
+  })();
+  </script>
+</body>
+</html>
