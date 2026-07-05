@@ -333,6 +333,8 @@ svg {
 
 /* AI-translation warning shown at the top of detail pages in Chinese mode */
 .ai-translation-warning {
+  position: relative;
+  z-index: 4;
   display: flex;
   align-items: center;
   gap: 0.5rem;
