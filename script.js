@@ -1113,47 +1113,30 @@
     });
   }
 
-  // ── Card tilt + cursor spotlight ─────────────────────────
+  // ── Hover motion prefs (used by card + photo effects) ────
   var finePointer =
     window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   var reduceMotion =
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // Card hover (a light lift + gentle image zoom) is now handled purely in CSS,
+  // which is lighter and smoother than the previous per-frame 3D tilt.
+  // Keep only a subtle cursor-following glow: update the spotlight position
+  // (CSS vars) on move — no transforms, no rAF, so it stays lightweight.
   if (finePointer && !reduceMotion) {
-    var tiltCards = document.querySelectorAll(".cards .card__link");
-    var MAX_TILT = 1.5; // degrees
-    tiltCards.forEach(function (link) {
-      var raf = null;
-      function onMove(e) {
+    document.querySelectorAll(".cards .card__link").forEach(function (link) {
+      link.addEventListener("pointermove", function (e) {
         var rect = link.getBoundingClientRect();
-        var px = (e.clientX - rect.left) / rect.width;
-        var py = (e.clientY - rect.top) / rect.height;
-        // Spotlight position (percent).
-        link.style.setProperty("--mx", (px * 100).toFixed(1) + "%");
-        link.style.setProperty("--my", (py * 100).toFixed(1) + "%");
-        if (raf) return;
-        raf = requestAnimationFrame(function () {
-          raf = null;
-          var rx = (0.5 - py) * MAX_TILT;
-          var ry = (px - 0.5) * MAX_TILT;
-          link.style.transform =
-            "perspective(1000px) translateY(0px) rotateX(" +
-            rx.toFixed(2) +
-            "deg) rotateY(" +
-            ry.toFixed(2) +
-            "deg)";
-        });
-      }
-      function onLeave() {
-        if (raf) {
-          cancelAnimationFrame(raf);
-          raf = null;
-        }
-        link.style.transform = "";
-      }
-      link.addEventListener("pointermove", onMove);
-      link.addEventListener("pointerleave", onLeave);
+        link.style.setProperty(
+          "--mx",
+          (((e.clientX - rect.left) / rect.width) * 100).toFixed(1) + "%"
+        );
+        link.style.setProperty(
+          "--my",
+          (((e.clientY - rect.top) / rect.height) * 100).toFixed(1) + "%"
+        );
+      });
     });
   }
 
