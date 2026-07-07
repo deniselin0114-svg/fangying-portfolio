@@ -771,12 +771,13 @@ svg {
   max-width: 58ch;
   font-size: clamp(0.9rem, 1.25vw, 1.02rem);
   line-height: 1.65;
-  color: var(--ink-mid);
+  color: var(--ink);
+  font-weight: 500;
 }
 
 .intro__lede strong {
   color: var(--ink);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .intro__scroll {
