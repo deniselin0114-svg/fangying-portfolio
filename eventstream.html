@@ -107,6 +107,29 @@
     </div>
 
     <section class="proj-section reveal">
+      <span class="proj-kicker">My role</span>
+      <h2>Designing a 0→1 product from the ground up</h2>
+      <p>
+        As a Product Designer on the Real-Time Intelligence team, I helped
+        define and design the end-to-end Eventstream experience from the ground
+        up.
+      </p>
+      <p>My responsibilities included:</p>
+      <ul class="proj-highlights">
+        <li>Driving the product UX vision alongside PM and engineering partners</li>
+        <li>Designing core workflows for creating and managing streaming pipelines</li>
+        <li>Defining interaction patterns for sources, transformations, and destinations</li>
+        <li>Conducting competitive analysis and customer research</li>
+        <li>Iterating on concepts through prototyping and usability testing</li>
+        <li>Collaborating across multiple Fabric teams to ensure consistency within the broader platform</li>
+      </ul>
+      <p>
+        Because Eventstream was a 0→1 product, many interaction patterns,
+        terminology, and mental models had to be established from scratch.
+      </p>
+    </section>
+
+    <section class="proj-section reveal">
       <span class="proj-kicker">Introduction</span>
       <h2>What is Fabric?</h2>
       <p>
@@ -134,6 +157,19 @@
         integrations. With AI assistance, Fabric empowers both technical and
         non-technical users to turn data into actionable insights faster.
       </p>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/fabric-overview.png"
+          alt="Microsoft Fabric platform overview showing Data Factory, Analytics, Databases, Real-Time Intelligence, IQ, and Power BI, all built on a shared Fabric Platform layer with Copilot, OneLake, and Governance"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          Microsoft Fabric unifies data engineering, analytics, and BI
+          workloads on a shared platform layer — OneLake, Copilot, and
+          governance.
+        </figcaption>
+      </figure>
     </section>
 
     <section class="proj-section reveal">
@@ -143,10 +179,7 @@
         Eventstream is one of Microsoft Fabric's foundational Real-Time
         Intelligence experiences, designed to help organizations ingest,
         process, transform, and route streaming data from a variety of sources
-        into analytics destinations in real time. Built as a native Fabric
-        experience, Eventstream enables users to create end-to-end streaming
-        pipelines through a visual interface, reducing the complexity
-        traditionally associated with real-time data systems.
+        into analytics destinations in real time.
       </p>
       <p>
         As one of the earliest workloads in Fabric, Eventstream played a
@@ -154,6 +187,49 @@
         data platform where users can move seamlessly from data ingestion to
         analytics and business intelligence without leaving the ecosystem.
       </p>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/real-time-intelligence.png"
+          alt="Real-Time Intelligence architecture showing data sources flowing through Event stream into Event house, KQL Queryset, and Real-Time Dashboard, visualized via Power BI and Reflex, all connected through the Real-Time hub on OneLake"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          Eventstream is the ingest &amp; process entry point of Fabric's
+          Real-Time Intelligence experience — from data sources to
+          visualization and action.
+        </figcaption>
+      </figure>
+      <p>
+        Built as a native Fabric experience, Eventstream enables users to
+        create end-to-end streaming pipelines through a visual interface,
+        reducing the complexity traditionally associated with real-time data
+        systems.
+      </p>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/eventstream-topology-edit.png"
+          alt="Eventstream topology in edit mode, showing sources, an aggregate/filter/SQL operator chain, and destinations with a Transform events panel open"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          Edit mode — visually wiring sources, operators, and destinations
+          into an end-to-end streaming topology.
+        </figcaption>
+      </figure>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/eventstream-topology-live.png"
+          alt="Eventstream topology in live mode, showing real-time throughput, volume processed, error count, and a data monitor with incoming/outgoing message and volume charts"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          Live mode — monitoring throughput, volume, and errors across the
+          same topology in real time.
+        </figcaption>
+      </figure>
     </section>
 
     <section class="proj-section reveal">
@@ -165,6 +241,18 @@
         While this data holds significant business value, working with it often
         requires specialized expertise and multiple disconnected tools.
       </p>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/real-time-hub.png"
+          alt="Real-Time hub diagram showing best-in-class connectivity to data sources flowing into the Real-Time hub, then out to Process, Analyze, and Act destinations"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          The Real-Time hub connects best-in-class data sources to process,
+          analyze, and act — all from one place.
+        </figcaption>
+      </figure>
       <p>
         As Microsoft Fabric was being created as a unified data platform, there
         was an opportunity to rethink how users interacted with streaming data.
@@ -173,12 +261,37 @@
         moving real-time data could be as approachable as building a data
         report.
       </p>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/eventstream-data-sources.png"
+          alt="Eventstream Get data screen listing dozens of supported data sources including Stock market, Yellow taxi, OneLake events, Azure Event Hubs, Weather, HTTP, Azure SQL DB, Confluent, Amazon MSK Kafka, Apache Kafka, and more"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          Eventstream supports 50+ and growing real-time data connectors,
+          spanning cloud events, databases, message queues, and other
+          previously disconnected tools.
+        </figcaption>
+      </figure>
       <p>
         Eventstream was conceived as a foundational building block of Fabric —
         providing a simple, visual way to connect, transform, and route
         streaming data while integrating seamlessly with the rest of the
         platform.
       </p>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/eventstream-home.png"
+          alt="Eventstream home page prompting users to get started ingesting, transforming, and routing streaming events by choosing a data source or scenario"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          A simple entry point — choose a data source or scenario to start
+          building a streaming pipeline in minutes.
+        </figcaption>
+      </figure>
     </section>
 
     <section class="proj-section reveal">
@@ -189,48 +302,142 @@
         streaming specialists.
       </p>
       <p>
-        We set out to create a low-code, visual experience that would allow
-        data engineers, analysts, and developers to build streaming data
-        pipelines without needing deep expertise in distributed systems or event
-        processing technologies.
+        Through research with our primary persona <strong>data engineers</strong>
+        and our secondary personas <strong>data analysts</strong> and
+        <strong>data scientists</strong>, we identified a common challenge:
+        building streaming data pipelines required specialized knowledge of
+        distributed systems, event processing, and complex tooling.
       </p>
-      <p>By embedding Eventstream directly within Fabric, users could:</p>
+      <p>
+        To bridge this gap, Eventstream is designed to support multiple ways of
+        building streaming solutions:
+      </p>
+      <ol class="proj-highlights">
+        <li>
+          <strong>A low-code visual experience</strong> that enables analysts
+          and data scientists to create streaming topologies and data
+          pipelines without requiring deep technical expertise.
+          <figure class="proj-figure">
+            <img
+              class="proj-figure__img"
+              src="assets/eventstream-get-data-mqtt.png"
+              alt="Get data wizard for connecting to an MQTT source, with connection, topic, and version fields, plus recommended and advanced settings pre-filled by default"
+              loading="lazy"
+            />
+            <figcaption class="proj-figure__cap">
+              A guided wizard walks users through the required connection
+              inputs, with recommended settings and advanced options
+              pre-filled by default.
+            </figcaption>
+          </figure>
+          <figure class="proj-figure">
+            <img
+              class="proj-figure__img"
+              src="assets/eventstream-mapping-wizard.png"
+              alt="Destination wizard showing a data preview and inspect table with automatic column-to-field mapping and transformation options"
+              loading="lazy"
+            />
+            <figcaption class="proj-figure__cap">
+              Simple transformation and data mapping can be completed
+              directly in the wizard, with default mappings applied
+              automatically.
+            </figcaption>
+          </figure>
+          <figure class="proj-figure">
+            <img
+              class="proj-figure__img"
+              src="assets/eventstream-filter-schema.png"
+              alt="Filter operator panel with dropdowns for custom code operators, no-code operators, and condition values to filter events by schema field"
+              loading="lazy"
+            />
+            <figcaption class="proj-figure__cap">
+              Built-in transformations let users transform and enrich data
+              using schema with a user friendly interface with no code
+              required.
+            </figcaption>
+          </figure>
+        </li>
+        <li>
+          <strong>SQL and CI/CD support</strong> for data engineers and
+          developers who prefer code-first workflows and need scalable,
+          production-ready development practices.
+          <figure class="proj-figure">
+            <img
+              class="proj-figure__img"
+              src="assets/eventstream-add-sql.png"
+              alt="Transform events panel with the SQL Code custom code operator highlighted for configuration"
+              loading="lazy"
+            />
+            <figcaption class="proj-figure__cap">
+              Users can add a SQL Code operator directly from the Transform
+              events panel to start writing custom logic.
+            </figcaption>
+          </figure>
+          <figure class="proj-figure">
+            <img
+              class="proj-figure__img"
+              src="assets/eventstream-sql-editor.png"
+              alt="SQL code editor for writing custom transformation queries, with an input schema tree and live data preview"
+              loading="lazy"
+            />
+            <figcaption class="proj-figure__cap">
+              For advanced scenarios, users can write custom SQL to define
+              transformation logic with full control.
+            </figcaption>
+          </figure>
+        </li>
+        <li>
+          <strong>AI-powered natural language authoring with Copilot</strong>,
+          allowing users to describe their intent in plain language and
+          receive intelligent assistance when creating, configuring, and
+          managing streaming pipelines.
+          <figure class="proj-figure">
+            <img
+              class="proj-figure__img"
+              src="assets/eventstream-copilot-nl-1.png"
+              alt="Copilot chat proposing a plan to create a business event and schema based on a natural-language request, with fields like eventID, timestamp, and crowdDensityLevel"
+              loading="lazy"
+            />
+            <figcaption class="proj-figure__cap">
+              Copilot proposes a complete business event and schema from a
+              plain-language description of user intent.
+            </figcaption>
+          </figure>
+          <figure class="proj-figure">
+            <img
+              class="proj-figure__img"
+              src="assets/eventstream-copilot-nl-2.png"
+              alt="Copilot chat side-by-side with the Define business event wizard, pre-filled with the schema fields Copilot generated"
+              loading="lazy"
+            />
+            <figcaption class="proj-figure__cap">
+              The generated schema flows directly into the guided wizard,
+              turning a conversation into a working data solution.
+            </figcaption>
+          </figure>
+        </li>
+      </ol>
+      <p>
+        By supporting visual, code-first, and AI-assisted experiences,
+        Eventstream ultimately empowers users across different technical
+        backgrounds to build and operate real-time data solutions more
+        efficiently, and shorten the path from raw events to business insights
+        and establish the real-time foundations.
+      </p>
+      <p>As a result, users are empowered by Eventstream to:</p>
       <ul class="proj-highlights">
-        <li>Connect to live data sources</li>
-        <li>Transform and enrich streaming data</li>
-        <li>Route events to multiple destinations</li>
-        <li>Analyze data in real time</li>
-        <li>Surface insights through Power BI dashboards and reports</li>
+        <li>Connect to 50+ in-house built live data sources</li>
+        <li>
+          Transform and enrich streaming data in different ways depending on
+          their technical background
+        </li>
+        <li>
+          Route events to multiple destinations — within the Fabric ecosystem
+          or external sinks
+        </li>
+        <li>Analyze data in real time and surface insights</li>
         <li>Leverage AI-powered capabilities across the Fabric ecosystem</li>
       </ul>
-      <p>
-        Ultimately, the goal was to shorten the path from raw events to business
-        insights and establish the real-time foundation for future Fabric
-        experiences.
-      </p>
-    </section>
-
-    <section class="proj-section reveal">
-      <span class="proj-kicker">My role</span>
-      <h2>Designing a 0→1 product from the ground up</h2>
-      <p>
-        As a Product Designer on the Real-Time Intelligence team, I helped
-        define and design the end-to-end Eventstream experience from the ground
-        up.
-      </p>
-      <p>My responsibilities included:</p>
-      <ul class="proj-highlights">
-        <li>Driving the product UX vision alongside PM and engineering partners</li>
-        <li>Designing core workflows for creating and managing streaming pipelines</li>
-        <li>Defining interaction patterns for sources, transformations, and destinations</li>
-        <li>Conducting competitive analysis and customer research</li>
-        <li>Iterating on concepts through prototyping and usability testing</li>
-        <li>Collaborating across multiple Fabric teams to ensure consistency within the broader platform</li>
-      </ul>
-      <p>
-        Because Eventstream was a 0→1 product, many interaction patterns,
-        terminology, and mental models had to be established from scratch.
-      </p>
     </section>
 
     <section class="proj-section reveal">

@@ -109,6 +109,18 @@
     <section class="proj-section reveal">
       <span class="proj-kicker">Problem definition</span>
       <h2>Users get blocked when a connector is missing or restricted</h2>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/rti-connectors-overview.png"
+          alt="Real-Time Intelligence in Microsoft Fabric diagram showing Stream composed of Connectors, Eventstream, and Event Schema Set, on top of the Fabric Platform with Copilot, OneLake, Real-Time Hub, and Governance"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          Connectors are in-house built sources that Fabric supports, giving
+          users a low-code interface and a simple connecting experience.
+        </figcaption>
+      </figure>
       <p>
         Fabric users rely heavily on connectors to ingest real-time data from
         a wide range of distributed systems. Today, Real-Time hub provides a
@@ -133,6 +145,19 @@
           HTTP endpoints, Solace PubSub+.
         </li>
       </ul>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/eventstream-data-sources.png"
+          alt="Real-Time hub Get data screen listing dozens of supported data sources including Stock market, Yellow taxi, OneLake events, Azure Event Hubs, Weather, HTTP, Azure SQL DB, Confluent, and more"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          Fabric Eventstream currently supports more than 50 in-house built
+          connectors, spanning cloud events, databases, and messaging
+          systems.
+        </figcaption>
+      </figure>
       <p>
         These connectors cover many common ingestion scenarios, but the
         streaming ecosystem is significantly broader and constantly evolving.
@@ -141,6 +166,18 @@
         platform roadmap. And some connectors
         <strong>can't be shipped at all due to licensing restrictions</strong>.
       </p>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/connector-no-results.png"
+          alt="Real-Time hub Add data screen showing 'No results found' when searching for the SAP Hana connector, with guidance to develop a Kafka connector and upload it to the workspace"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          When a source isn't supported, users hit a dead end — with no
+          built-in way to bring their own connector into Fabric.
+        </figcaption>
+      </figure>
       <p>
         <strong>The real user pain:</strong> users are blocked from bringing
         data into Fabric when connectors are missing or restricted.
@@ -233,6 +270,55 @@
           updates and fixes.
         </li>
       </ul>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/custom-stream-connector-home.png"
+          alt="Custom Stream Connector home page in Fabric, showing Build your stream connector, Version control, and Lineage cards, plus an Upload custom connector button"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          The new Custom Stream Connector item lets users build, version, and
+          track their own streaming connectors in one place.
+        </figcaption>
+      </figure>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/custom-connector-package.png"
+          alt="Custom connector overview page for SAP_Hana, showing connector name, last updated date, default version, connected eventstream count, description, and the default version package with a download option"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          Each connector has an overview with its package, description, and
+          default version — ready to connect or update at any time.
+        </figcaption>
+      </figure>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/custom-connector-versions.png"
+          alt="Custom connector Versions tab for FlightData, listing v1 through v4 with uploader and updated date, and options to download, delete, or set the default version"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          The Versions tab gives users full control to upload, roll back, or
+          set the default version of their connector.
+        </figcaption>
+      </figure>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/custom-connector-lineage.png"
+          alt="Custom connector Lineage view for SAP_Hana, showing each version (v1, v2, v3) connected to the eventstreams and destinations that consume it"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          The Lineage view visualizes how each connector version flows into
+          downstream eventstreams and destinations, helping teams track
+          usage and compliance.
+        </figcaption>
+      </figure>
     </section>
 
     <section class="proj-section reveal">
@@ -392,6 +478,20 @@
           SDK/Kafka references at the entry point, not buried after upload.
         </p>
       </div>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/finding-build-develop.png"
+          alt="Annotated Real-Time hub Add data screen explaining that build and upload guidance for Kafka connectors is now surfaced directly at the entry point"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          We show step 1 and 2 of develop and upload a custom connector, and
+          include documentation and build guidance immediately — surfacing
+          clear “how to build a connector” pathways and SDK/Kafka references
+          at the entry point, not buried after upload.
+        </figcaption>
+      </figure>
 
       <hr class="proj-finding-divider" aria-hidden="true" />
 
@@ -422,6 +522,20 @@
           conventions.
         </p>
       </div>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/finding-one-name.png"
+          alt="Annotated Upload custom connector screen explaining that connector name and item name are merged into a single name by default, with an optional label override"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          Based on the research, we merge connector name and item name into a
+          single name by default, keeping an optional label override for
+          teams with fixed naming conventions. All 6 participants understood
+          it as the name of the artifact, expecting the same connector name.
+        </figcaption>
+      </figure>
 
       <hr class="proj-finding-divider" aria-hidden="true" />
 
@@ -452,20 +566,33 @@
           indicators that mark connectors as self-uploaded.
         </p>
       </div>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/finding-upgrade-version.png"
+          alt="Annotated Versions tab explaining that the message about changing the default version was moved out of a tooltip and surfaced clearly, since upgrading scenario feedback will be planned for GA"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          In the original design, we hid this message in a tooltip. Based on
+          the research, it's very important to clarify what happens after
+          changing a default version — the upgrade scenario itself is valued
+          and planned for GA.
+        </figcaption>
+      </figure>
 
       <hr class="proj-finding-divider" aria-hidden="true" />
 
-      <h4 class="proj-finding-title">4. No one wanted to hand-edit configuration.</h4>
+      <h4 class="proj-finding-title">4. Users need UI CRUD configurations.</h4>
       <p>
-        The
-        clearest, most consistent signal: people didn't want to edit a raw
-        config blob. They expected a familiar <strong>CRUD-style UI</strong> —
-        create, read, update, and delete the connector's settings the same way
-        they manage other Fabric resources. Defining which properties end users
-        see, and what each one means, shouldn't require editing JSON. They asked
-        to manage settings visually; add, edit, reorder, and remove them with
-        clear fields; preview the form their end users will actually fill in; and
-        keep an escape hatch to the underlying JSON for power users.
+        Our participants show that they expected a familiar
+        <strong>CRUD-style UI</strong> — create, read, update, and delete the
+        connector's settings the same way they manage other Fabric resources.
+        Defining which properties end users see, and what each one means,
+        shouldn't require editing JSON. They asked to manage settings
+        visually; add, edit, reorder, and remove them with clear fields;
+        preview the form their end users will actually fill in; and keep an
+        escape hatch to the underlying JSON for power users.
       </p>
       <div class="proj-quote">
         <p>"So when I'm uploading a new version, I want to compare the view from
@@ -483,6 +610,44 @@
           step into a first-class, guided screen.
         </p>
       </div>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/finding-crud-1.png"
+          alt="Annotated Upload custom connector screen showing the first CRUD attempt: a Preview and edit CTA below the connector package fields"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          First iteration: we added a "Preview and edit" CTA to the upload
+          flow as our initial attempt at CRUD.
+        </figcaption>
+      </figure>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/finding-crud-2.png"
+          alt="Annotated Preview and edit configuration form dialog explaining that in the second round of research, this modal UI looked confusing because participants thought they were starting the connection"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          That CTA opened a dialog — but a second round of research found it
+          confusing, since participants thought they were starting the
+          connection rather than editing its configuration.
+        </figcaption>
+      </figure>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/finding-crud-3.png"
+          alt="Annotated full-screen configuration editor with system parameters on the left, user-facing settings in the main area, and a live preview on the right, both side panes collapsible"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          We revisited the design with a full-screen editing experience —
+          preview on the side, user settings in the main area, and additional
+          settings in a collapsible left pane.
+        </figcaption>
+      </figure>
     </section>
 
     <section class="proj-section reveal">

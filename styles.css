@@ -2108,7 +2108,7 @@ svg {
 
 /* Figure / media */
 .proj-figure {
-  margin: 1.6rem 0 0;
+  margin: 1.6rem 0;
 }
 
 .proj-figure__img {
@@ -2962,6 +2962,12 @@ svg {
 }
 
 /* ── Clickable prototype card ─────────────────── */
+@property --feature-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
 .feature--proto {
   position: relative;
   width: 100%;
@@ -2988,6 +2994,44 @@ svg {
 .feature--proto .feature__sheen,
 .feature--proto::before {
   display: none;
+}
+
+/* Thin running-light stroke that travels around the card border */
+.feature--proto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--feature-angle),
+    transparent 0deg,
+    rgba(255, 255, 255, 0.95) 8deg,
+    rgba(167, 243, 190, 0.9) 40deg,
+    rgba(45, 212, 191, 0.9) 72deg,
+    rgba(45, 125, 70, 0.9) 104deg,
+    transparent 130deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: feature-border-run 4.5s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes feature-border-run {
+  to {
+    --feature-angle: 360deg;
+  }
+}
+
+.feature--proto:hover::after {
+  animation-play-state: paused;
+  opacity: 0;
+  transition: opacity 0.2s var(--ease);
 }
 
 .feature--proto .feature__text {
@@ -3047,7 +3091,8 @@ svg {
 
 @media (prefers-reduced-motion: reduce) {
   .feature__sheen { animation: none; opacity: 0; }
-  .feature--proto { transform: none; }
+  .feature--proto { transform: none; box-shadow: none; }
+  .feature--proto::after { animation: none; opacity: 0; }
 }
 
 .feature__name {
