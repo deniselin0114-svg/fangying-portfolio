@@ -2120,6 +2120,13 @@ svg {
   background: var(--panel);
 }
 
+/* Darker backdrop for charts/screenshots with transparent, light-colored
+   artwork that would otherwise wash out against a light theme panel. */
+.proj-figure__img--dark {
+  background: #2a2a2e;
+  border-color: #2a2a2e;
+}
+
 .proj-figure__cap {
   margin-top: 0.7rem;
   font-size: 0.85rem;
@@ -2142,6 +2149,60 @@ svg {
   height: 540px;
   border: 0;
   background: var(--card);
+}
+
+/* Responsive video embed (e.g. YouTube demo) */
+.proj-video {
+  margin: 1.6rem 0 0;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  background: var(--panel);
+  aspect-ratio: 16 / 9;
+}
+
+.proj-video iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Inline SVG architecture diagrams */
+.proj-diagram {
+  margin: 1.6rem 0;
+  padding: clamp(1rem, 3vw, 1.8rem);
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.proj-diagram--events {
+  background: linear-gradient(160deg, #f7f7f5, #ececea);
+  border-color: #e4e4e1;
+}
+
+.proj-diagram svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.proj-diagram__card-label {
+  font: 700 13px/1 var(--font);
+  letter-spacing: 0.03em;
+}
+
+.proj-diagram__item-label {
+  font: 600 13.5px/1 var(--font);
+}
+
+.proj-diagram__hub-label {
+  font: 700 14.5px/1.4 var(--font);
+}
+
+.proj-diagram__edge-label {
+  font: 600 12.5px/1 var(--font);
 }
 
 /* Image gallery grid */

@@ -372,7 +372,8 @@
     // Navigation + global UI
     "About me": "关于我",
     "Connect with me": "与我联系",
-    "Resume": "履历",
+    "Resume (EN)": "履历（英文）",
+    "Resume (CN)": "履历（中文）",
     "Email me": "寄信给我",
     "Eventstream in Microsoft Fabric": "Microsoft Fabric 中的 Eventstream",
     "Business Events in Microsoft Fabric": "Microsoft Fabric 中的商业事件",

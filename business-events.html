@@ -70,7 +70,8 @@
         <a class="nav__item" href="top20talent.html">Top20Talent Portal</a>
 
         <hr class="nav__divider" aria-hidden="true" />
-        <a class="nav__item" href="#">Resume</a>
+        <a class="nav__item" href="assets/resume-fangying-lin-en.pdf" target="_blank" rel="noopener">Resume (EN)</a>
+        <a class="nav__item" href="assets/resume-fangying-lin-cn.pdf" target="_blank" rel="noopener">Resume (CN)</a>
         <a class="nav__item" href="mailto:deniselin0114@gmail.com">Email me</a>
       </nav>
     </aside>
@@ -91,6 +92,20 @@
         <img class="es-shot" src="assets/business-events-preview.png" alt="" loading="lazy" />
       </div>
     </div>
+
+    <section class="proj-section reveal">
+      <span class="proj-kicker">Demo</span>
+      <h2>Business Events Demo</h2>
+      <div class="proj-video">
+        <iframe
+          src="https://www.youtube.com/embed/a-1S3YWvk6g"
+          title="Business event demo"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </section>
 
     <section class="proj-section reveal">
       <span class="proj-kicker">The problem</span>
@@ -136,6 +151,60 @@
     <section class="proj-section reveal">
       <span class="proj-kicker">How it works</span>
       <h2>Publishers and consumers: a decoupled design</h2>
+      <div class="proj-diagram proj-diagram--events" role="img" aria-label="Diagram showing Eventstream, Notebook, User Data Function, Operational Agent, and more publishing Business Events into the Real-Time hub, which is then consumed by Eventhouse, Activator, and more">
+        <svg viewBox="0 0 920 400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="diagramArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 Z" fill="#9a9a97" />
+            </marker>
+          </defs>
+
+          <!-- Publishers card -->
+          <rect x="40" y="30" width="260" height="340" rx="20" fill="#d9e7e0" />
+          <text x="70" y="70" class="proj-diagram__card-label" fill="#1f7a56">PUBLISHERS</text>
+          <g fill="#ffffff" stroke="#e3e3e0">
+            <rect x="64" y="90" width="212" height="42" rx="21" />
+            <rect x="64" y="142" width="212" height="42" rx="21" />
+            <rect x="64" y="194" width="212" height="42" rx="21" />
+            <rect x="64" y="246" width="212" height="42" rx="21" />
+            <rect x="64" y="298" width="212" height="42" rx="21" />
+          </g>
+          <g class="proj-diagram__item-label" text-anchor="middle" fill="#2b2b28">
+            <text x="170" y="116">Eventstream</text>
+            <text x="170" y="168">Notebook</text>
+            <text x="170" y="220">User Data Function</text>
+            <text x="170" y="272">Operational Agent</text>
+            <text x="170" y="324">…More</text>
+          </g>
+
+          <!-- Real-Time hub card -->
+          <rect x="380" y="110" width="220" height="180" rx="20" fill="#e9e0f7" />
+          <text x="410" y="150" class="proj-diagram__card-label" fill="#6a3fa0">REAL-TIME HUB</text>
+          <rect x="404" y="170" width="172" height="56" rx="28" fill="#8f5fc4" />
+          <text x="490" y="203" class="proj-diagram__hub-label" text-anchor="middle" fill="#ffffff">Business Events</text>
+
+          <!-- Consumers card -->
+          <rect x="680" y="60" width="220" height="280" rx="20" fill="#dbe8f4" />
+          <text x="710" y="100" class="proj-diagram__card-label" fill="#205ea8">CONSUMERS</text>
+          <g fill="#ffffff" stroke="#e3e3e0">
+            <rect x="704" y="120" width="172" height="42" rx="21" />
+            <rect x="704" y="172" width="172" height="42" rx="21" />
+            <rect x="704" y="224" width="172" height="42" rx="21" />
+          </g>
+          <g class="proj-diagram__item-label" text-anchor="middle" fill="#2b2b28">
+            <text x="790" y="146">Eventhouse</text>
+            <text x="790" y="198">Activator</text>
+            <text x="790" y="250">…More</text>
+          </g>
+
+          <!-- Publish / consume arrows -->
+          <line x1="304" y1="200" x2="376" y2="200" stroke="#9a9a97" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#diagramArrow)" />
+          <text x="340" y="230" class="proj-diagram__edge-label" text-anchor="middle" fill="#6b6b67">Publish</text>
+
+          <line x1="604" y1="200" x2="676" y2="200" stroke="#9a9a97" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#diagramArrow)" />
+          <text x="640" y="230" class="proj-diagram__edge-label" text-anchor="middle" fill="#6b6b67">Consume</text>
+        </svg>
+      </div>
       <p>
         The clever part of the design is that the <strong>announcers
         (publishers)</strong> and the <strong>listeners (consumers)</strong> never
@@ -197,6 +266,31 @@
           know whenever a bag is sent to the wrong airport."</em> The AI
           understands this and sets up the event for you, including the details it
           should carry (like flight number and bag ID).
+          <figure class="proj-figure">
+            <img
+              class="proj-figure__img"
+              src="assets/business-event-ai-ask.png"
+              alt="Copilot chat where the user describes wanting to raise an event when congestion is detected at stadium entrances, and Copilot clarifies the objective and analyzes the Stadium Operations Eventhouse to identify a CongestionRisk field"
+              loading="lazy"
+            />
+            <figcaption class="proj-figure__cap">
+              Describe the moment that matters in plain language — Copilot
+              clarifies the objective and analyzes existing data to identify
+              the right signal.
+            </figcaption>
+          </figure>
+          <figure class="proj-figure">
+            <img
+              class="proj-figure__img"
+              src="assets/business-event-ai-plan.png"
+              alt="Copilot building a plan that recommends elevating CongestionRisk to a Business Event, with a generated schema including eventID, timestamp, entranceZone, crowdDensityLevel, estimatedWaitMinutes, and entryVelocity"
+              loading="lazy"
+            />
+            <figcaption class="proj-figure__cap">
+              Copilot proposes the business event and a complete schema —
+              ready to review and start with a single click.
+            </figcaption>
+          </figure>
         </li>
         <li>
           <strong>AI sets up a place to keep the history.</strong> Every
@@ -209,6 +303,19 @@
           <strong>AI suggests where the signal should come from.</strong> It
           recommends the best source for your announcement and connects it for you,
           so the information lines up correctly every time.
+          <figure class="proj-figure">
+            <img
+              class="proj-figure__img"
+              src="assets/business-event-ai-publisher.png"
+              alt="Copilot recommending an Operational Agent as the publisher for the business event, finding the existing StadiumSecurity agent, and the Agent setup page showing its business goal and instructions"
+              loading="lazy"
+            />
+            <figcaption class="proj-figure__cap">
+              Copilot recommends an operational agent as the publisher,
+              finds an existing one that fits, and wires it up as the
+              event's source.
+            </figcaption>
+          </figure>
         </li>
         <li>
           <strong>AI helps decide what happens next.</strong> It wires up the
@@ -253,6 +360,32 @@
         other users can reuse the <em>same</em> one instead of rebuilding their own,
         which saves time, avoids duplicate work, and keeps everyone in sync.
       </p>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/business-event-ai-schema-mapping.png"
+          alt="Schema mapping screen connecting the StadiumOperations source schema to the CongestionRisk destination schema, with each field — eventID, timestamp, entranceZone, crowdDensityLevel, estimatedWaitMinutes, entryVelocity — mapped one to one"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          Once something happens, it's mapped into the event schema — so both
+          AI and users understand exactly what the data means.
+        </figcaption>
+      </figure>
+      <figure class="proj-figure">
+        <img
+          class="proj-figure__img"
+          src="assets/business-event-ai-add-rule.png"
+          alt="Add rule panel creating a StaffReallocation rule that monitors the CongestionRisk business event on each event and runs the StaffReallocation function with the entranceZone parameter"
+          loading="lazy"
+        />
+        <figcaption class="proj-figure__cap">
+          Because AI and humans now speak the same language, users can set
+          triggers that react directly to the data mapped to a business
+          event — like automatically reallocating staff when congestion risk
+          is detected.
+        </figcaption>
+      </figure>
     </section>
 
     <section class="proj-section reveal">
