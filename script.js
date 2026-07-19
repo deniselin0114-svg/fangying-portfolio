@@ -539,7 +539,7 @@
     "Because Eventstream was a 0→1 product, many interaction patterns, terminology, and mental models had to be established from scratch.":
       "由于 Eventstream 是一项从 0 到 1 的产品，许多交互模式、术语与心智模型都必须从零开始创建。",
     "Business scale": "业务规模",
-    "Serving a business at scale": "支撑一项具规模的业务",
+    "Eventstream business scale": "支撑一项具规模的业务",
     "Within the Eventstream item, we deliver real-time data streaming capabilities that power a fast-growing business, driving meaningful impact across adoption, customer reach, and revenue.":
       "在 Eventstream 这项产品中，我们提供的即时数据串流能力，支撑着一项快速成长的业务，并在采用率、客户触及与营收等方面带来实质影响。",
     "Features": "功能",
